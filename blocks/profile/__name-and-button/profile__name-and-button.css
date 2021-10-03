@@ -1,0 +1,5 @@
+.profile__name-and-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
