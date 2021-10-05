@@ -22,13 +22,19 @@ formPopupContainer.addEventListener(
     'submit',
     function (evt) {
       evt.preventDefault();
-      
+      let inputName = document.querySelector('#input-name');
+      let inputNameText = inputName.value;
+      let profileName = document.querySelector('.profile__name');
+      profileName.textContent = inputNameText;
+
+      let inputPersonalInfo = document.querySelector('#input-personal-info');
+      let inputPersonalInfoText = inputPersonalInfo.value;
+      let profilePersonalInfo = document.querySelector('.profile__personal-info');
+      profilePersonalInfo.textContent = inputPersonalInfoText;
+      const popup = document.querySelector('.popup');
+      popup.classList.remove('popup_opened');
     }
-
-
 )
-
-
 let closeIcon = document.querySelector('.popup__close-icon');
 
 closeIcon.addEventListener(
