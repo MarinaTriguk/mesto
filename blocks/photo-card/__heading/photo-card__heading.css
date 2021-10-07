@@ -1,0 +1,12 @@
+.photo-card__heading {
+   max-height: 22%;
+   font-size: 24px;
+   font-weight: 900;
+   font-style: normal;
+   line-height: 29px;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+   justify-content: center;
+   align-items: center;
+}

@@ -1,6 +1,5 @@
 .photo-card__image {
   object-fit: cover;
   width: 100%;
-  max-height: 100%;
+  min-height: 78%;
 }
-
