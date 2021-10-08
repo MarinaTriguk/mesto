@@ -1,13 +1,15 @@
 .photo-card__like {
- background-image: url("../../../images/like.svg");
+  background-image: url("../../../images/like.svg");
   width: 22px;
- height: 19px;
- display: flex;
- justify-content: center;
- align-items: center;
- flex-shrink: 0;
+  height: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .photo-card__like:hover {
- background-image: url("../../../images/layer.svg");
+  opacity: 0.5;
 }

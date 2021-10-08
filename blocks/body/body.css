@@ -1,12 +1,4 @@
 .body {
   background-color: #000000;
   font-family: 'Inter', Arial, sans-serif;
-  padding-left: calc((100% - 800px) / 2);
-  padding-right: calc((100% - 800px) / 2);
-}
-@media (max-width: 838px) {
-  .body {
-    padding-left: 19px;
-    padding-right: 19px;
-  }
 }

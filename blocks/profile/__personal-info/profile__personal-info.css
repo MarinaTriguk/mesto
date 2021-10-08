@@ -1,14 +1,18 @@
 .profile__personal-info {
-  width: 336px;
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
   line-height: 22px;
   color: #FFFFFF;
-  margin: 16px 0 0 0;
+  margin: 8px 0 0 0;
 }
 
-
+@media (max-width: 720px) {
+  .profile__personal-info {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
 
 
 

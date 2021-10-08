@@ -7,4 +7,11 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, max-content));
   grid-column-gap: 17px;
   grid-row-gap: 20px;
+  padding: 0 0 67px 0;
+}
+
+@media (max-width: 720px) {
+  .photo-grid {
+    padding: 0 0 46px 0;
+  }
 }

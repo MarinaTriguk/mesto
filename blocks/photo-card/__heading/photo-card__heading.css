@@ -1,5 +1,4 @@
 .photo-card__heading {
-   max-height: 22%;
    font-size: 24px;
    font-weight: 900;
    font-style: normal;
@@ -9,4 +8,5 @@
    overflow: hidden;
    justify-content: center;
    align-items: center;
+   margin: 23px 0 25px 0;
 }

@@ -1,3 +1,11 @@
 .main {
   width: 100%;
+  padding: 0 calc((100% - 880px) / 2) 0 calc((100% - 880px) / 2);
+  box-sizing: border-box;
+}
+
+@media (max-width: 918px) {
+  .main {
+    padding: 0 19px 0 19px;
+  }
 }

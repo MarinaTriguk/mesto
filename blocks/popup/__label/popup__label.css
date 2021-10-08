@@ -8,3 +8,10 @@
   color: #000000;
   margin-bottom: 39px;
 }
+
+@media (max-width: 720px) {
+  .popup__label {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

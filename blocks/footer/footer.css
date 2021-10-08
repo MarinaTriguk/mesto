@@ -4,6 +4,13 @@
   font-size: 18px;
   line-height: 22px;
   color: #545454;
-  padding-top: 67px;
-  padding-bottom: 60px;
+  padding: 0 calc((100% - 880px) / 2) 60px calc((100% - 880px) / 2);
+}
+
+@media (max-width: 918px) {
+  .footer {
+    padding: 0 19px 60px 19px;
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

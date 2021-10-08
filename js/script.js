@@ -17,7 +17,7 @@ editButton.addEventListener(
     inputPersonalInfo.value = inputPersonalInfoText;
   }
 );
-let formPopupContainer = document.querySelector('.popup__container');
+let formPopupContainer = document.querySelector('.popup__form');
 formPopupContainer.addEventListener(
     'submit',
     function (evt) {

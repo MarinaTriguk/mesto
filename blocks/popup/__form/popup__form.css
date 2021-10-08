@@ -1,4 +1,4 @@
-.popup__container {
+.popup__form {
   width: 430px;
   position: relative;
   background: #FFFFFF;
@@ -7,4 +7,12 @@
   flex-direction: column;
   padding: 34px 36px 36px 36px;
   box-sizing: border-box;
+  z-index: 2;
+}
+
+@media (max-width: 720px) {
+  .popup__form {
+    width: calc(100vw - 38px);
+    padding: 25px 22px;
+  }
 }
