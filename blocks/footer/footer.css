@@ -1,16 +1,15 @@
 .footer {
-  font-weight: 400;
-  font-style: normal;
-  font-size: 18px;
-  line-height: 22px;
-  color: #545454;
   padding: 0 calc((100% - 880px) / 2) 60px calc((100% - 880px) / 2);
 }
 
 @media (max-width: 918px) {
   .footer {
     padding: 0 19px 60px 19px;
-    font-size: 14px;
-    line-height: 17px;
+  }
+}
+
+@media (max-width: 720px) {
+  .footer {
+    padding: 0 19px 36px 19px;
   }
 }

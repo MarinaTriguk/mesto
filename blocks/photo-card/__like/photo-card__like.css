@@ -8,6 +8,8 @@
   flex-shrink: 0;
   cursor: pointer;
   transition: opacity 0.5s ease-in-out;
+  background-color: initial;
+  border: none;
 }
 
 .photo-card__like:hover {

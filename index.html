@@ -11,16 +11,13 @@
   <header class="header">
     <img class="header__logo" src="images/logo.svg" alt="Место Россия">
   </header>
-  <div class="delimiter">
-    <div class="delimiter__line"></div>
-  </div>
   <main class="main">
     <section class="profile">
       <img class="profile__image" src="images/kuchto.jpg" alt="Жак Кухто">
       <div class="profile__info">
         <div class="profile__name-and-button">
-          <h2 class="profile__name">Жак-Ив Кусто</h2>
-          <div class="profile__edit-button"></div>
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
         </div>
         <p class="profile__personal-info">Исследователь океана</p>
       </div>
@@ -28,62 +25,66 @@
         <div class="profile__add-button-image"></div>
       </div>
     </section>
-
     <section class="photo-grid">
-      <div class="photo-card">
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/karachajevsk.jpg" alt="Карачаевск">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Карачаевск</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
-      <div class="photo-card">
+      </article>
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/goraElbrus.jpg" alt="Гора Эльбрус">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Гора Эльбрус</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
-      <div class="photo-card">
+      </article>
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/dombaj.jpg" alt="Домбай">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Домбай</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
-      <div class="photo-card">
+      </article>
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/claudio-schwarz.jpg" alt="Горы">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Горы</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
-      <div class="photo-card">
+      </article>
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/harrison-hargrave.jpg" alt="Горный лес">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Горный лес</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
-      <div class="photo-card">
+      </article>
+      <article class="photo-card">
         <img class="photo-card__image" src="./images/jonatan-pie.jpg" alt="Каньон">
         <div class="photo-card__information">
           <h2 class="photo-card__heading">Каньон</h2>
-          <div class="photo-card__like"></div>
+          <button class="photo-card__like" type="button"></button>
         </div>
-      </div>
+      </article>
     </section>
   </main>
-  <footer class="footer">&copy; 2020 Mesto Russia</footer>
+  <footer class="footer">
+    <p class="footer__text">
+      &copy; 2020 Mesto Russia
+    </p>
+  </footer>
   <div class="popup">
-    <form class="popup__form">
-      <label class="popup__label">Редактировать профиль </label>
-      <input type="text" class="popup__input" id="input-name">
-      <input type="text" class="popup__input" id="input-personal-info">
-      <input type="submit" class="popup__button-submit" value="Сохранить">
-      <div class="popup__close-icon">
-      </div>
-    </form>
+    <div class="popup__container">
+      <form class="popup__form" name="index.html">
+        <h2 class="popup__label">Редактировать профиль</h2>
+        <input type="text" name="person_name" class="popup__input" id="input-name">
+        <input type="text" name="personal_info" class="popup__input" id="input-personal-info">
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+        <button class="popup__close-icon" type="button"></button>
+      </form>
+    </div>
   </div>
 <script src="js/script.js"></script>
 </body>
