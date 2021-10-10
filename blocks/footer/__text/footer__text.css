@@ -8,7 +8,7 @@
 }
 
 @media (max-width: 918px) {
-  .footer {
+  .footer__text {
     font-size: 14px;
     line-height: 17px;
   }
