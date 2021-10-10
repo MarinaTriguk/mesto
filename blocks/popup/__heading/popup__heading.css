@@ -1,4 +1,4 @@
-.popup__label {
+.popup__heading {
   width: 330px;
   height: 23px;
   font-style: normal;
@@ -6,11 +6,11 @@
   font-size: 24px;
   line-height: 29px;
   color: #000000;
-  margin-bottom: 39px;
+  margin: 0 0 39px 0;
 }
 
 @media (max-width: 720px) {
-  .popup__label {
+  .popup__heading {
     font-size: 18px;
     line-height: 22px;
   }
