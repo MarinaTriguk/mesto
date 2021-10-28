@@ -17,6 +17,6 @@
   border: none;
 }
 
-.photo-card__like:hover {
-  opacity: 0.5;
+.photo-card__remove:hover {
+  opacity: 0.6;
 }
