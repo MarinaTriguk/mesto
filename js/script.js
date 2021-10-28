@@ -1,53 +1,116 @@
-let editButton = document.querySelector('.profile__edit-button');
+const initialCards = [
+  {
+    name: 'Карачаевск',
+    link: './images/karachajevsk.jpg'
+  },
+  {
+    name: 'Гора Эльбрус',
+    link: './images/goraElbrus.jpg'
+  },
+  {
+    name: 'Домбай',
+    link: './images/dombaj.jpg'
+  },
+  {
+    name: 'Горы',
+    link: './images/claudio-schwarz.jpg'
+  },
+  {
+    name: 'Горный лес',
+    link: './images/harrison-hargrave.jpg'
+  },
+  {
+    name: 'Каньон',
+    link: './images/jonatan-pie.jpg'
+  },
+];
+const photoCardTemplate = document.querySelector('#photo-card-template');
+const photoGrid = document.querySelector('.photo-grid');
 
-editButton.addEventListener(
-  'click',
-  function() {
-    const popup = document.querySelector('.popup');
+function addCard(name, link, prepend = false) {
+  const photoCard = photoCardTemplate.content.querySelector('.photo-card').cloneNode(true);
+  photoCard.querySelector('.photo-card__heading').textContent = name;
+  const img = photoCard.querySelector('.photo-card__image');
+  img.setAttribute('alt', name);
+  img.setAttribute('src', link);
+  img.addEventListener('click', function() {
+    const popup = document.querySelector('#image-popup');
+    const container = popup.querySelector('.popup__container');
+    const popupImg = document.createElement('img');
+    popupImg.classList.add('popup__image');
+    popupImg.setAttribute('src', link);
+    popupImg.setAttribute('src', link);
+    container.querySelectorAll('.popup__image').forEach(function(element) {
+      element.remove();
+    });
+    container.append(popupImg);
     popup.classList.add('popup_opened');
+  });
+  photoCard.querySelector('.photo-card__like').addEventListener('click', function(evt) {
+    evt.target.classList.toggle('photo-card__like_active');
+  })
+  photoCard.querySelector('.photo-card__remove').addEventListener('click', function() {
+    photoCard.remove();
+  });
+  if (prepend) {
+    photoGrid.prepend(photoCard);
+  } else {
+    photoGrid.append(photoCard);
+  }
+}
 
-    let profileName = document.querySelector('.profile__name');
-    let inputNameText = profileName.textContent;
-    let inputName = document.querySelector('#input-name');
-    inputName.value = inputNameText;
+initialCards.forEach(function(card) {
+  addCard(card.name, card.link);
+});
 
-    let profilePersonalInfo = document.querySelector('.profile__personal-info');
-    let inputPersonalInfoText = profilePersonalInfo.textContent;
-    let inputPersonalInfo = document.querySelector('#input-personal-info');
-    inputPersonalInfo.value = inputPersonalInfoText;
+document.querySelector('.profile__edit-button').addEventListener(
+  'click',
+  function () {
+    document.querySelector('#profile-form-popup').classList.add('popup_opened');
+    document.querySelector('#input-name').value = document.querySelector('.profile__name').textContent;
+    document.querySelector('#input-personal-info').value = document.querySelector('.profile__personal-info').textContent;
   }
 );
-let formPopupContainer = document.querySelector('.popup__form');
-formPopupContainer.addEventListener(
-    'submit',
-    function (evt) {
-      evt.preventDefault();
-      let inputName = document.querySelector('#input-name');
-      let inputNameText = inputName.value;
-      let profileName = document.querySelector('.profile__name');
-      profileName.textContent = inputNameText;
 
-      let inputPersonalInfo = document.querySelector('#input-personal-info');
-      let inputPersonalInfoText = inputPersonalInfo.value;
-      let profilePersonalInfo = document.querySelector('.profile__personal-info');
-      profilePersonalInfo.textContent = inputPersonalInfoText;
-      const popup = document.querySelector('.popup');
-      popup.classList.remove('popup_opened');
-    }
+document.querySelector('#profile-form-popup').querySelector('.popup__form').addEventListener(
+  'submit',
+  function (evt) {
+    evt.preventDefault();
+    document.querySelector('.profile__name').textContent = document.querySelector('#input-name').value;
+    document.querySelector('.profile__personal-info').textContent = document.querySelector('#input-personal-info').value;
+    document.querySelector('.popup').classList.remove('popup_opened');
+  }
 )
-let closeIcon = document.querySelector('.popup__close-icon');
 
-closeIcon.addEventListener(
+document.querySelectorAll('.popup__close-icon').forEach(function(closePopupButton) {
+  closePopupButton.addEventListener(
     'click',
-    function () {
-      const popup = document.querySelector('.popup');
+    function (evt) {
+      const popup = evt.target.closest('.popup');
       popup.classList.remove('popup_opened');
     }
+  )
+});
+
+document.querySelector('.profile__add-button').addEventListener(
+  'click',
+  function () {
+    document.querySelector('#place-form-popup').classList.add('popup_opened');
+  }
+);
+
+document.querySelector('#place-form-popup').querySelector('.popup__form').addEventListener(
+  'submit',
+  function (evt) {
+    evt.preventDefault();
+    addCard(
+      document.querySelector('#input-place-name').value,
+      document.querySelector('#input-place-img-src').value,
+      true
+    )
+    document.querySelector('#place-form-popup').classList.remove('popup_opened');
+  }
 )
-
-
-
-
 
 
 

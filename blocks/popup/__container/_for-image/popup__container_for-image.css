@@ -1,0 +1,12 @@
+.popup__container_for-image {
+  width: initial;
+  border-radius: initial;
+  padding: 0;
+}
+
+@media (max-width: 720px) {
+  .popup__container {
+    width: initial;
+    padding: 0;
+  }
+}

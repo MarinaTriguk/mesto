@@ -23,67 +23,50 @@
       </div>
       <button type="button" aria-label="Добавить" class="profile__add-button"></button>
     </section>
-    <section class="photo-grid">
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/karachajevsk.jpg" alt="Карачаевск">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Карачаевск</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/goraElbrus.jpg" alt="Гора Эльбрус">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Гора Эльбрус</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/dombaj.jpg" alt="Домбай">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Домбай</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/claudio-schwarz.jpg" alt="Горы">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Горы</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/harrison-hargrave.jpg" alt="Горный лес">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Горный лес</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-      <article class="photo-card">
-        <img class="photo-card__image" src="./images/jonatan-pie.jpg" alt="Каньон">
-        <div class="photo-card__information">
-          <h2 class="photo-card__heading">Каньон</h2>
-          <button class="photo-card__like" type="button"></button>
-        </div>
-      </article>
-    </section>
+    <section class="photo-grid"></section>
   </main>
   <footer class="footer">
     <p class="footer__text">
       &copy; 2020 Mesto Russia
     </p>
   </footer>
-  <div class="popup">
+  <div class="popup" id="profile-form-popup">
     <div class="popup__container">
       <form class="popup__form" name="index.html">
         <h2 class="popup__heading">Редактировать профиль</h2>
-        <input type="text" name="person_name" class="popup__input" id="input-name">
-        <input type="text" name="personal_info" class="popup__input" id="input-personal-info">
+        <input type="text" name="person_name" class="popup__input" id="input-name" placeholder="Имя">
+        <input type="text" name="personal_info" class="popup__input" id="input-personal-info" placeholder="Описание">
         <input type="submit" class="popup__button-submit" value="Сохранить">
-        <button class="popup__close-icon" type="button"></button>
       </form>
+      <button class="popup__close-icon" type="button"></button>
     </div>
   </div>
+  <div class="popup" id="place-form-popup">
+    <div class="popup__container">
+      <form class="popup__form" name="index.html">
+        <h2 class="popup__heading">Новое место</h2>
+        <input type="text" name="card_name" class="popup__input" id="input-place-name" placeholder="Название">
+        <input type="text" name="card_img_src" class="popup__input" id="input-place-img-src" placeholder="Ссылка на картинку">
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+      </form>
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
+  <div class="popup" id="image-popup">
+    <div class="popup__container popup__container_for-image">
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
+  <template id="photo-card-template">
+    <article class="photo-card">
+      <img class="photo-card__image" src="./images/harrison-hargrave.jpg" alt="Горный лес">
+      <div class="photo-card__information">
+        <h2 class="photo-card__heading">Горный лес</h2>
+        <button class="photo-card__like" type="button" aria-label="Лайк"></button>
+      </div>
+      <button class="photo-card__remove" type="button" aria-label="Удалить"></button>
+    </article>
+  </template>
 <script src="js/script.js"></script>
 </body>
 </html>
