@@ -43,14 +43,13 @@ function createCard(name, link) {
   return photoCard;
 }
 
-function addCard(name, link) {
+function addCard(name, link, prepend = false) {
   const photoCard = createCard(name, link);
-  photoGrid.append(photoCard);
-}
-
-function prependCard(name, link) {
-  const photoCard = createCard(name,link);
-  photoGrid.prepend(photoCard);
+  if (prepend){
+    photoGrid.prepend(photoCard);
+  } else {
+    photoGrid.append(photoCard);
+  }
 }
 
 initialCards.forEach(function(card) {
@@ -97,7 +96,7 @@ placeFormPopup.querySelector('.popup__form').addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    prependCard(inputPlaceName.value, inputPlaceImgSrc.value);
+    addCard(inputPlaceName.value, inputPlaceImgSrc.value, true);
     inputPlaceName.value = '';
     inputPlaceImgSrc.value = '';
     closePopup(placeFormPopup);
