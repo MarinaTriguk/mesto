@@ -4,4 +4,6 @@
   overflow: hidden;
   background-color: #FFFFFF;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }

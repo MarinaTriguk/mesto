@@ -32,7 +32,7 @@
   </footer>
   <div class="popup" id="profile-form-popup">
     <div class="popup__container">
-      <form class="popup__form" name="index.html">
+      <form class="popup__form" name="profile.html">
         <h2 class="popup__heading">Редактировать профиль</h2>
         <input type="text" name="person_name" class="popup__input" id="input-name" placeholder="Имя">
         <input type="text" name="personal_info" class="popup__input" id="input-personal-info" placeholder="Описание">
@@ -43,7 +43,7 @@
   </div>
   <div class="popup" id="place-form-popup">
     <div class="popup__container">
-      <form class="popup__form" name="index.html">
+      <form class="popup__form" name="name.html">
         <h2 class="popup__heading">Новое место</h2>
         <input type="text" name="card_name" class="popup__input" id="input-place-name" placeholder="Название">
         <input type="text" name="card_img_src" class="popup__input" id="input-place-img-src" placeholder="Ссылка на картинку">
@@ -55,6 +55,7 @@
   <div class="popup" id="image-popup">
     <div class="popup__container popup__container_for-image">
       <button class="popup__close-icon" type="button"></button>
+      <img class="popup__image" src="./images/karachajevsk.jpg" alt="Карачаевск">
     </div>
   </div>
   <template id="photo-card-template">
@@ -67,6 +68,7 @@
       <button class="photo-card__remove" type="button" aria-label="Удалить"></button>
     </article>
   </template>
+<script src="js/initial-cards.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

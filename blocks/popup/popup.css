@@ -8,10 +8,10 @@
   align-items: center;
   justify-content: center;
   z-index: 1;
-  overflow: hidden;  /* Hide the element content, while height = 0 */
+  overflow: hidden;
   height: 0;
   opacity: 0;
-  transition: height 0ms 0ms, opacity 800ms 0ms;
+  transition: height 0ms 800ms, opacity 800ms 0ms;
 }
 
 
