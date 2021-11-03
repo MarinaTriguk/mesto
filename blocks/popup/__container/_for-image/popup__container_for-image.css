@@ -5,7 +5,7 @@
 }
 
 @media (max-width: 720px) {
-  .popup__container {
+  .popup__container_for-image {
     width: initial;
     padding: 0;
   }
