@@ -85,7 +85,7 @@ profileForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    updateFormValidity(profileForm, validationSettings);
+    prepareFormForSubmit(profileForm, validationSettings);
     if (formIsValid(profileForm, validationSettings)) {
       profileName.textContent = inputName.value;
       profilePersonalInfo.textContent = inputPersonalInfo.value;
@@ -117,7 +117,7 @@ placeForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    updateFormValidity(placeForm, validationSettings);
+    prepareFormForSubmit(placeForm, validationSettings);
     if (formIsValid(placeForm, validationSettings)) {
       addCard(inputPlaceName.value, inputPlaceImgSrc.value, true);
       closePopup(placeFormPopup);

@@ -25,9 +25,16 @@ const clearInputTouchedState = (inputElement, validationSettings) => {
   }
 }
 
+const getInputList = (formElement, validationSettings) => Array.from(formElement.querySelectorAll(validationSettings.inputSelector))
+
 const clearAllFormInputsTouchedState = (formElement, validationSettings) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const inputList = getInputList(formElement, validationSettings);
   inputList.forEach((inputElement) => clearInputTouchedState(inputElement, validationSettings));
+}
+
+const setAllFormInputsTouchedState = (formElement, validationSettings) => {
+  const inputList = getInputList(formElement, validationSettings);
+  inputList.forEach((inputElement) => setInputTouchedState(inputElement, validationSettings));
 }
 
 
@@ -40,7 +47,7 @@ const updateInputValidity = (formElement, inputElement, validationSettings) => {
 };
 
 const formIsValid = (formElement, validationSettings) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const inputList = getInputList(formElement, validationSettings);
   return inputList.every((inputElement) => inputElement.validity.valid);
 }
 
@@ -55,7 +62,7 @@ const updateButtonState = (formElement, validationSettings) => {
 
 
 const setEventListeners = (formElement, validationSettings) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const inputList = getInputList(formElement, validationSettings);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       setInputTouchedState(inputElement, validationSettings);
@@ -66,7 +73,7 @@ const setEventListeners = (formElement, validationSettings) => {
 };
 
 const updateFormValidity = (formElement, validationSettings) => {
-  const inputList = Array.from(formElement.querySelectorAll(validationSettings.inputSelector));
+  const inputList = getInputList(formElement, validationSettings);
   inputList.forEach((inputElement) => {
     updateInputValidity(formElement, inputElement, validationSettings);
   });
@@ -82,5 +89,9 @@ const enableValidation = (validationSettings) => {
 
 const prepareFormForUserInput = (formElement, validationSettings) => {
   clearAllFormInputsTouchedState(formElement, validationSettings);
+  updateFormValidity(formElement, validationSettings);
+}
+const prepareFormForSubmit = (formElement, validationSettings) => {
+  setAllFormInputsTouchedState(formElement, validationSettings);
   updateFormValidity(formElement, validationSettings);
 }
