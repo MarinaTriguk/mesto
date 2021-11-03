@@ -23,7 +23,7 @@ const validationSettings = {
   submitButtonSelector: '.popup__button-submit',
   inactiveButtonClass: 'popup__button-submit_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorVisibleClass: 'form__input-error_active'
+  errorVisibleClass: 'popup__input-error_active'
 };
 let openedPopup = null;
 
