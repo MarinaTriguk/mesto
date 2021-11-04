@@ -15,6 +15,7 @@ const inputPlaceName = document.querySelector('#input-place-name');
 const inputPlaceImgSrc = document.querySelector('#input-place-img-src');
 const imagePopup = document.querySelector('#image-popup');
 const imagePopupImg = document.querySelector('.popup__image');
+const imagePopupHeading = document.querySelector('.popup__image-heading');
 const popupList = Array.from(document.querySelectorAll('.popup'));
 const validationSettings = {
   formSelector: '.popup__form',
@@ -37,24 +38,26 @@ function closePopup(popup) {
   openedPopup = null;
 }
 
+const openImagePopup = (name, link) => {
+  imagePopupImg.setAttribute('src', link);
+  imagePopupImg.setAttribute('alt', name);
+  imagePopupHeading.textContent = name;
+  openPopup(imagePopup);
+}
 
+const toggleCardLike = (element) => element.classList.toggle('photo-card__like_active')
 function createCard(name, link) {
   const photoCard = photoCardTemplate.content.querySelector('.photo-card').cloneNode(true);
   photoCard.querySelector('.photo-card__heading').textContent = name;
   const img = photoCard.querySelector('.photo-card__image');
   img.setAttribute('alt', name);
   img.setAttribute('src', link);
-  img.addEventListener('click', function() {
-    imagePopupImg.setAttribute('src', link);
-    imagePopupImg.setAttribute('alt', name);
-    openPopup(imagePopup);
-  });
-  photoCard.querySelector('.photo-card__like').addEventListener('click', function(evt) {
-    evt.target.classList.toggle('photo-card__like_active');
-  })
-  photoCard.querySelector('.photo-card__remove').addEventListener('click', function() {
-    photoCard.remove();
-  });
+  img.addEventListener('click', () => openImagePopup(name, link));
+  photoCard.querySelector('.photo-card__like').addEventListener(
+    'click',
+    (evt) => toggleCardLike(evt.target)
+  );
+  photoCard.querySelector('.photo-card__remove').addEventListener('click', () => photoCard.remove());
   return photoCard;
 }
 

@@ -1,0 +1,10 @@
+.photo-card__image-container {
+  position: relative;
+  width: 100%;
+}
+
+.photo-card__image-container:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
