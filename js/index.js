@@ -43,7 +43,7 @@ function openPopup(popup) {
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   openedPopup = null;
-  document.addEventListener('keydown', closePopupOnEsc);
+  document.removeEventListener('keydown', closePopupOnEsc);
 }
 
 const openImagePopup = (name, link) => {
