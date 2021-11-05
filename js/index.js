@@ -28,14 +28,22 @@ const validationSettings = {
 };
 let openedPopup = null;
 
+const closePopupOnEsc = (evt) => {
+  if (evt.key === 'Escape' && openedPopup !== null) {
+    closePopup(openedPopup);
+  }
+}
+
 function openPopup(popup) {
   popup.classList.add('popup_opened');
   openedPopup = popup;
+  document.addEventListener('keydown', closePopupOnEsc);
 }
 
 function closePopup(popup) {
   popup.classList.remove('popup_opened');
   openedPopup = null;
+  document.addEventListener('keydown', closePopupOnEsc);
 }
 
 const openImagePopup = (name, link) => {
@@ -138,16 +146,6 @@ popupList.forEach(
         }
       }
     );
-  }
-);
-
-
-document.addEventListener(
-  'keydown',
-  (evt) => {
-    if (evt.key === 'Escape' && openedPopup !== null) {
-      closePopup(openedPopup);
-    }
   }
 );
 
