@@ -1,4 +1,6 @@
-const photoCardTemplate = document.querySelector('#photo-card-template');
+import {Card} from './Card.js';
+import {initialCards} from './initial-cards.js';
+import {FormValidator} from './FormValidator.js';
 const photoGrid = document.querySelector('.photo-grid');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileFormPopup = document.querySelector('#profile-form-popup');
@@ -13,9 +15,6 @@ const placeFormPopup = document.querySelector('#place-form-popup');
 const placeForm = placeFormPopup.querySelector('.popup__form');
 const inputPlaceName = document.querySelector('#input-place-name');
 const inputPlaceImgSrc = document.querySelector('#input-place-img-src');
-const imagePopup = document.querySelector('#image-popup');
-const imagePopupImg = document.querySelector('.popup__image');
-const imagePopupHeading = document.querySelector('.popup__image-heading');
 const popupList = Array.from(document.querySelectorAll('.popup'));
 const validationSettings = {
   formSelector: '.popup__form',
@@ -26,18 +25,24 @@ const validationSettings = {
   inputErrorClass: 'popup__input_type_error',
   errorVisibleClass: 'popup__input-error_active'
 };
-let openedPopup = null;
+
+
+const profileFormValidator = new FormValidator(validationSettings, profileForm);
+profileFormValidator.enableValidation();
+const placeFormValidator = new FormValidator(validationSettings, placeForm);
+placeFormValidator.enableValidation();
+
+export let openedPopup = null;
+export function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  openedPopup = popup;
+  document.addEventListener('keydown', closePopupOnEsc);
+}
 
 const closePopupOnEsc = (evt) => {
   if (evt.key === 'Escape' && openedPopup !== null) {
     closePopup(openedPopup);
   }
-}
-
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  openedPopup = popup;
-  document.addEventListener('keydown', closePopupOnEsc);
 }
 
 function closePopup(popup) {
@@ -46,31 +51,9 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePopupOnEsc);
 }
 
-const openImagePopup = (name, link) => {
-  imagePopupImg.setAttribute('src', link);
-  imagePopupImg.setAttribute('alt', name);
-  imagePopupHeading.textContent = name;
-  openPopup(imagePopup);
-}
-
-const toggleCardLike = (element) => element.classList.toggle('photo-card__like_active')
-function createCard(name, link) {
-  const photoCard = photoCardTemplate.content.querySelector('.photo-card').cloneNode(true);
-  photoCard.querySelector('.photo-card__heading').textContent = name;
-  const img = photoCard.querySelector('.photo-card__image');
-  img.setAttribute('alt', name);
-  img.setAttribute('src', link);
-  img.addEventListener('click', () => openImagePopup(name, link));
-  photoCard.querySelector('.photo-card__like').addEventListener(
-    'click',
-    (evt) => toggleCardLike(evt.target)
-  );
-  photoCard.querySelector('.photo-card__remove').addEventListener('click', () => photoCard.remove());
-  return photoCard;
-}
-
 function addCard(name, link, prepend = false) {
-  const photoCard = createCard(name, link);
+  const card = new Card(name, link, '#photo-card-template');
+  const photoCard = card.createCardElement();
   if (prepend){
     photoGrid.prepend(photoCard);
   } else {
@@ -87,7 +70,7 @@ profileEditButton.addEventListener(
   function () {
     inputName.value = profileName.textContent;
     inputPersonalInfo.value = profilePersonalInfo.textContent;
-    prepareFormForUserInput(profileForm, validationSettings);
+    profileFormValidator.prepareFormForUserInput(profileForm, validationSettings);
     openPopup(profileFormPopup);
   }
 );
@@ -96,8 +79,8 @@ profileForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    prepareFormForSubmit(profileForm, validationSettings);
-    if (formIsValid(profileForm, validationSettings)) {
+    profileFormValidator.prepareFormForSubmit(profileForm, validationSettings);
+    if (profileFormValidator.formIsValid(profileForm, validationSettings)) {
       profileName.textContent = inputName.value;
       profilePersonalInfo.textContent = inputPersonalInfo.value;
       closePopup(profileFormPopup);
@@ -119,7 +102,7 @@ addCardButton.addEventListener(
   'click',
   function () {
     placeForm.reset();
-    prepareFormForUserInput(placeForm, validationSettings);
+    placeFormValidator.prepareFormForUserInput(placeForm, validationSettings);
     openPopup(placeFormPopup);
   }
 );
@@ -128,8 +111,8 @@ placeForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    prepareFormForSubmit(placeForm, validationSettings);
-    if (formIsValid(placeForm, validationSettings)) {
+    placeFormValidator.prepareFormForSubmit(placeForm, validationSettings);
+    if (placeFormValidator.formIsValid(placeForm, validationSettings)) {
       addCard(inputPlaceName.value, inputPlaceImgSrc.value, true);
       closePopup(placeFormPopup);
     }
@@ -148,5 +131,3 @@ popupList.forEach(
     );
   }
 );
-
-enableValidation(validationSettings);
