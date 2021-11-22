@@ -1,26 +1,26 @@
 export const initialCards = [
     {
-        name: 'Карачаевск',
-        link: './images/karachajevsk.jpg'
+        name: 'Побережье',
+        link: './images/photo-01.jpg'
     },
     {
-        name: 'Гора Эльбрус',
-        link: './images/goraElbrus.jpg'
+        name: 'Песчаные дюны',
+        link: './images/photo-02.jpg'
     },
     {
-        name: 'Домбай',
-        link: './images/dombaj.jpg'
+        name: 'Осенний каньон',
+        link: './images/photo-03.jpg'
     },
     {
-        name: 'Горы',
-        link: './images/claudio-schwarz.jpg'
+        name: 'Дикий пляж',
+        link: './images/photo-04.jpg'
     },
     {
-        name: 'Горный лес',
-        link: './images/harrison-hargrave.jpg'
+        name: 'Мост на закате',
+        link: './images/photo-05.jpg'
     },
     {
-        name: 'Каньон',
-        link: './images/jonatan-pie.jpg'
+        name: 'Скалистый берег',
+        link: './images/photo-06.jpg'
     },
 ];

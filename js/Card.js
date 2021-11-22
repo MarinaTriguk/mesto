@@ -28,17 +28,17 @@ export class Card {
     this._img.setAttribute('src', this._link);
     return photoCard;
   }
-  _setEventListeners(photoCard) {
+  _setEventListeners() {
     this._img.addEventListener('click', () => this._openImagePopup(this._name, this._link));
-    photoCard.querySelector('.photo-card__like').addEventListener(
+    this._photoCard.querySelector('.photo-card__like').addEventListener(
       'click',
       (evt) => this._toggleCardLike(evt.target)
     );
-    photoCard.querySelector('.photo-card__remove').addEventListener('click', () => photoCard.remove());
+    this._photoCard.querySelector('.photo-card__remove').addEventListener('click', () => this._photoCard.remove());
   }
   createCardElement() {
-    const photoCard = this._createElement();
-    this._setEventListeners(photoCard);
-    return photoCard;
+    this._photoCard = this._createElement();
+    this._setEventListeners(this._photoCard);
+    return this._photoCard;
   }
 }

@@ -70,7 +70,7 @@ profileEditButton.addEventListener(
   function () {
     inputName.value = profileName.textContent;
     inputPersonalInfo.value = profilePersonalInfo.textContent;
-    profileFormValidator.prepareFormForUserInput(profileForm, validationSettings);
+    profileFormValidator.prepareFormForUserInput();
     openPopup(profileFormPopup);
   }
 );
@@ -79,8 +79,8 @@ profileForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    profileFormValidator.prepareFormForSubmit(profileForm, validationSettings);
-    if (profileFormValidator.formIsValid(profileForm, validationSettings)) {
+    profileFormValidator.prepareFormForSubmit();
+    if (profileFormValidator.formIsValid()) {
       profileName.textContent = inputName.value;
       profilePersonalInfo.textContent = inputPersonalInfo.value;
       closePopup(profileFormPopup);
@@ -102,7 +102,7 @@ addCardButton.addEventListener(
   'click',
   function () {
     placeForm.reset();
-    placeFormValidator.prepareFormForUserInput(placeForm, validationSettings);
+    placeFormValidator.prepareFormForUserInput();
     openPopup(placeFormPopup);
   }
 );
@@ -111,8 +111,8 @@ placeForm.addEventListener(
   'submit',
   function (evt) {
     evt.preventDefault();
-    placeFormValidator.prepareFormForSubmit(placeForm, validationSettings);
-    if (placeFormValidator.formIsValid(placeForm, validationSettings)) {
+    placeFormValidator.prepareFormForSubmit();
+    if (placeFormValidator.formIsValid()) {
       addCard(inputPlaceName.value, inputPlaceImgSrc.value, true);
       closePopup(placeFormPopup);
     }
