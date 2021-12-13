@@ -1,7 +1,10 @@
-import {Card} from '../components/Card.js';
-import {initialCards} from './initial-cards.js';
-import {FormValidator} from '../components/FormValidator.js';
-const photoGrid = document.querySelector('.photo-grid');
+import Card from '../components/Card.js';
+import {initialCards} from '../utils/initial-cards.js';
+import FormValidator from '../components/FormValidator.js';
+import Section from "../components/Section.js";
+
+const photoGridSectionSelector = '.photo-grid';
+const photoGrid = document.querySelector(photoGridSectionSelector);
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileFormPopup = document.querySelector('#profile-form-popup');
 const profileForm = profileFormPopup.querySelector('.popup__form');
@@ -51,18 +54,34 @@ function closePopup(popup) {
   document.removeEventListener('keydown', closePopupOnEsc);
 }
 
-function addCard(name, link, prepend = false) {
-  const card = new Card(name, link, '#photo-card-template');
-  const photoCard = card.createCardElement();
-  if (prepend){
-    photoGrid.prepend(photoCard);
-  } else {
-    photoGrid.append(photoCard);
-  }
-}
+// function addCard(name, link, prepend = false) {
+//   const card = new Card(name, link, '#photo-card-template');
+//   const photoCard = card.createCardElement();
+//   if (prepend){
+//     photoGrid.prepend(photoCard);
+//   } else {
+//     photoGrid.append(photoCard);
+//   }
+// }
+//
+// initialCards.forEach(function(card) {
+//   addCard(card.name, card.link);
+// });
+const cardList = new Section(
+  {
+    data: initialCards,
+    renderer: (cardItem) => {
+      const card = new Card(cardItem.name, cardItem.link, '#photo-card-template');
+      const cardElement = card.createCardElement();
 
-initialCards.forEach(function(card) {
-  addCard(card.name, card.link);
+      return cardElement;
+    },
+  },
+  photoGridSectionSelector
+);
+
+document.addEventListener('DOMContentLoaded', function() {
+  cardList.renderItems();
 });
 
 profileEditButton.addEventListener(
