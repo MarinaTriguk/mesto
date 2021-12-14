@@ -35,38 +35,6 @@ profileFormValidator.enableValidation();
 const placeFormValidator = new FormValidator(validationSettings, placeForm);
 placeFormValidator.enableValidation();
 
-export let openedPopup = null;
-export function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  openedPopup = popup;
-  document.addEventListener('keydown', closePopupOnEsc);
-}
-
-const closePopupOnEsc = (evt) => {
-  if (evt.key === 'Escape' && openedPopup !== null) {
-    closePopup(openedPopup);
-  }
-}
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  openedPopup = null;
-  document.removeEventListener('keydown', closePopupOnEsc);
-}
-
-// function addCard(name, link, prepend = false) {
-//   const card = new Card(name, link, '#photo-card-template');
-//   const photoCard = card.createCardElement();
-//   if (prepend){
-//     photoGrid.prepend(photoCard);
-//   } else {
-//     photoGrid.append(photoCard);
-//   }
-// }
-//
-// initialCards.forEach(function(card) {
-//   addCard(card.name, card.link);
-// });
 const cardList = new Section(
   {
     data: initialCards,
@@ -83,6 +51,8 @@ const cardList = new Section(
 document.addEventListener('DOMContentLoaded', function() {
   cardList.renderItems();
 });
+
+const profilePopup = new
 
 profileEditButton.addEventListener(
   'click',
@@ -150,3 +120,5 @@ popupList.forEach(
     );
   }
 );
+
+
