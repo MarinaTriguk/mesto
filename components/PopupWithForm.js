@@ -16,8 +16,8 @@
     );
   }
 
-  closePopup() {
-    super.closePopup();
+  close() {
+    super.close();
     this._form.reset();
   }
 

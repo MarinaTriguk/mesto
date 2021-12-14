@@ -3,11 +3,11 @@ class PopupWithImage extends Popup {
     super(selector);
     this._image = this._popup.querySelector('.popup__image');
 }
-  openPopup(name, link) {
+  open(name, link) {
     this._image.setAttribute('src', link);
     this._image.setAttribute('alt', name);
     this._image.textContent = name;
-    super.openPopup();
+    super.open();
   }
 }
 

@@ -52,7 +52,29 @@ document.addEventListener('DOMContentLoaded', function() {
   cardList.renderItems();
 });
 
-const profilePopup = new
+const profilePopup = new PopupWithForm ('.profile-form-popup', (evt) => {
+  evt.preventDefault();
+  profileFormValidator.prepareFormForSubmit();
+  if (profileFormValidator.formIsValid()) {
+    profileName.textContent = inputName.value;
+    profilePersonalInfo.textContent = inputPersonalInfo.value;
+    profilePopup.close();
+  }});
+
+const placePopup = new PopupWithForm ( '.place-form-popup', (evt) => {
+  evt.preventDefault();
+  placeFormValidator.prepareFormForSubmit();
+  if (placeFormValidator.formIsValid()) {
+    const item = {
+      name: inputPlaceName.value,
+      link: inputPlaceImgSrc.value
+    };
+    cardList.appendItem(item);
+    placePopup.close();
+  }
+  }
+);
+
 
 profileEditButton.addEventListener(
   'click',
