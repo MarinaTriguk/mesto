@@ -1,26 +1,33 @@
+const photo01 = new URL('../images/photo-01.jpg', import.meta.url);
+const photo02 = new URL('../images/photo-02.jpg', import.meta.url);
+const photo03 = new URL('../images/photo-03.jpg', import.meta.url);
+const photo04 = new URL('../images/photo-04.jpg', import.meta.url);
+const photo05 = new URL('../images/photo-05.jpg', import.meta.url);
+const photo06 = new URL('../images/photo-06.jpg', import.meta.url);
+
 export const initialCards = [
     {
         name: 'Побережье',
-        link: './images/photo-01.jpg'
+        link: photo01
     },
     {
         name: 'Песчаные дюны',
-        link: './images/photo-02.jpg'
+        link: photo02
     },
     {
         name: 'Осенний каньон',
-        link: './images/photo-03.jpg'
+        link: photo03
     },
     {
         name: 'Дикий пляж',
-        link: './images/photo-04.jpg'
+        link: photo04
     },
     {
         name: 'Мост на закате',
-        link: './images/photo-05.jpg'
+        link: photo05
     },
     {
         name: 'Скалистый берег',
-        link: './images/photo-06.jpg'
+        link: photo06
     },
 ];
