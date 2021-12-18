@@ -7,8 +7,17 @@ export default class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.popup__form');
   }
 
-  _getInputValues() {
-    this._formValues = this._form.value;
+  // В брифе указано, что метод должен быть приватным, но в дальнейшем о его использовании не упоминается.
+  // Представляется удобным вызывать этот метод из formSubmitCallback для получения данных формы.
+  // Для этого метод  должен быть публичным.
+  getInputValues() {
+    const formData = new FormData(this._form);
+    const entries = formData.entries();
+    const inputValues = {};
+    for (let pair of entries) {
+      inputValues[pair[0]] = pair[1];
+    }
+    return inputValues;
   }
 
   setEventListeners() {
@@ -23,5 +32,5 @@ export default class PopupWithForm extends Popup {
     this._form.reset();
   }
 
- }
+}
 

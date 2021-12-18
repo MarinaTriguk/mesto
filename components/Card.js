@@ -1,9 +1,5 @@
-const imagePopup = document.querySelector('#image-popup');
-const imagePopupImg = document.querySelector('.popup__image');
-const imagePopupHeading = document.querySelector('.popup__image-heading');
-
 export default class  Card{
-  constructor (name, link, cardTemplateSelector, handleCardClick) {
+  constructor ({name, link}, cardTemplateSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._cardTemplateSelector = cardTemplateSelector;

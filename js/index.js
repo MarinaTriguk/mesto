@@ -7,21 +7,17 @@ import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 
 const photoGridSectionSelector = '.photo-grid';
-const photoGrid = document.querySelector(photoGridSectionSelector);
+const cardTemplateSelector = '#photo-card-template';
+const userNameSelector = '.profile__name';
+const userRoleSelector = '.profile__personal-info';
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileFormPopup = document.querySelector('.profile-form-popup');
 const profileForm = profileFormPopup.querySelector('.popup__form');
-const profileName = document.querySelector('.profile__name');
-const profilePersonalInfo = document.querySelector('.profile__personal-info');
 const inputName = document.querySelector('#input-name');
 const inputPersonalInfo = document.querySelector('#input-personal-info');
-const popupCloseIcons = document.querySelectorAll('.popup__close-icon');
 const addCardButton = document.querySelector('.profile__add-button');
 const placeFormPopup = document.querySelector('.place-form-popup');
 const placeForm = placeFormPopup.querySelector('.popup__form');
-const inputPlaceName = document.querySelector('#input-place-name');
-const inputPlaceImgSrc = document.querySelector('#input-place-img-src');
-const popupList = Array.from(document.querySelectorAll('.popup'));
 const validationSettings = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -46,11 +42,10 @@ const cardListSection = new Section(
     data: initialCards,
     renderer: (cardItem) => {
       const card = new Card(
-        cardItem.name,
-        cardItem.link,
-        '#photo-card-template',
+        cardItem,
+        cardTemplateSelector,
         () => {
-          popupWithImage.open(cardItem.name, cardItem.link);
+          popupWithImage.open(cardItem);
 
         }
       );
@@ -61,12 +56,11 @@ const cardListSection = new Section(
 );
 
 const userInfo = new UserInfo({
-  selectorUserName: '.profile__name',
-  selectorUserRole: '.profile__personal-info',
+  userNameSelector: userNameSelector,
+  userRoleSelector: userRoleSelector,
   initialUserName: 'Жак-Ив Кусто',
   initialUserRole: 'Исследователь океана'
 });
-
 
 const profilePopup = new PopupWithForm(
   '.profile-form-popup',
@@ -74,10 +68,8 @@ const profilePopup = new PopupWithForm(
     evt.preventDefault();
     profileFormValidator.prepareFormForSubmit();
     if (profileFormValidator.formIsValid()) {
-      userInfo.setUserInfo({
-        userName: inputName.value,
-        userRole: inputPersonalInfo.value
-      });
+      const formValues = profilePopup.getInputValues();
+      userInfo.setUserInfo(formValues);
       profilePopup.close();
     }
   }
@@ -88,11 +80,15 @@ const placePopup = new PopupWithForm (
     evt.preventDefault();
     placeFormValidator.prepareFormForSubmit();
     if (placeFormValidator.formIsValid()) {
-      const item = {
-        name: inputPlaceName.value,
-        link: inputPlaceImgSrc.value
-      };
-      cardListSection.prependItem(item);
+      const cardData = placePopup.getInputValues()
+      const card = new Card(
+        cardData,
+        cardTemplateSelector,
+        () => {
+          popupWithImage.open(cardData);
+        }
+      );
+      cardListSection.addItem(card.createCardElement(), true);
       placePopup.close();
     }
   }
@@ -102,8 +98,9 @@ const placePopup = new PopupWithForm (
 profileEditButton.addEventListener(
   'click',
   () => {
-    inputName.value = profileName.textContent;
-    inputPersonalInfo.value = profilePersonalInfo.textContent;
+    const {name, role} = userInfo.getUserInfo();
+    inputName.value = name;
+    inputPersonalInfo.value = role;
     profileFormValidator.prepareFormForUserInput();
     profilePopup.open();
   }
@@ -119,9 +116,7 @@ addCardButton.addEventListener(
 );
 
 
-document.addEventListener('DOMContentLoaded', function() {
-  profilePopup.setEventListeners();
-  placePopup.setEventListeners();
-  popupWithImage.setEventListeners();
-  cardListSection.renderItems();
-});
+profilePopup.setEventListeners();
+placePopup.setEventListeners();
+popupWithImage.setEventListeners();
+cardListSection.renderItems();

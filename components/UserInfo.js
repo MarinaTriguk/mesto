@@ -1,7 +1,7 @@
 export default class UserInfo {
-  constructor({selectorUserName, selectorUserRole, initialUserName, initialUserRole}) {
-    this._userNameHtmlElement = document.querySelector(selectorUserName);
-    this._userRoleHtmlElement = document.querySelector(selectorUserRole);
+  constructor({userNameSelector, userRoleSelector, initialUserName, initialUserRole}) {
+    this._userNameHtmlElement = document.querySelector(userNameSelector);
+    this._userRoleHtmlElement = document.querySelector(userRoleSelector);
     this._user = {name : initialUserName, role : initialUserRole };
     this._updateElement();
   }

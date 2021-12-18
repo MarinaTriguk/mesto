@@ -6,22 +6,15 @@ export default class Section {
     this._container = document.querySelector(selector);
   }
 
-  _clear() {
-    this._container.innerHTML = '';
-  }
-
   renderItems() {
-    this._clear();
     this._items.forEach(item => this._container.append(this._renderer(item)))
   }
 
-  appendItem(item) {
-    this._items.push(item);
-    this._container.append(this._renderer(item));
-  }
-
-  prependItem(item) {
-    this._items.unshift(item);
-    this._container.prepend(this._renderer(item));
+  addItem(domElement, prepend = false) {
+    if (prepend) {
+      this._container.prepend(domElement);
+    } else {
+      this._container.append(domElement);
+    }
   }
 }
