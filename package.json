@@ -1,0 +1,23 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "Training project",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarinaTriguk/mesto.git"
+  },
+  "author": "Marina Triguk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarinaTriguk/mesto/issues"
+  },
+  "homepage": "https://github.com/MarinaTriguk/mesto#readme",
+  "devDependencies": {
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  }
+}
