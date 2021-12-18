@@ -1,22 +1,16 @@
-import {openPopup} from '../js';
 const imagePopup = document.querySelector('#image-popup');
 const imagePopupImg = document.querySelector('.popup__image');
 const imagePopupHeading = document.querySelector('.popup__image-heading');
 
-export default class Card {
-  constructor (name, link, cardTemplateSelector) {
+export default class  Card{
+  constructor (name, link, cardTemplateSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._cardTemplateSelector = cardTemplateSelector;
+    this._handleCardClick = handleCardClick;
   }
   _toggleCardLike(element) {
     element.classList.toggle('photo-card__like_active');
-  }
-  _openImagePopup(name, link) {
-    imagePopupImg.setAttribute('src', link);
-    imagePopupImg.setAttribute('alt', name);
-    imagePopupHeading.textContent = name;
-    openPopup(imagePopup);
   }
 
   _createElement() {
@@ -28,7 +22,7 @@ export default class Card {
     return photoCard;
   }
   _setEventListeners() {
-    this._img.addEventListener('click', () => this._openImagePopup(this._name, this._link));
+    this._img.addEventListener('click', this._handleCardClick);
     this._photoCard.querySelector('.photo-card__like').addEventListener(
       'click',
       (evt) => this._toggleCardLike(evt.target)
