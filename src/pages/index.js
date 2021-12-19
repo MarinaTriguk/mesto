@@ -13,15 +13,19 @@ const cardTemplateSelector = '#photo-card-template';
 const userNameSelector = '.profile__name';
 const userRoleSelector = '.profile__personal-info';
 const profileEditButton = document.querySelector('.profile__edit-button');
-const profileFormPopup = document.querySelector('.profile-form-popup');
-const profileForm = profileFormPopup.querySelector('.popup__form');
+const popupFormSelector = '.popup__form';
+const popupInputSelector = '.popup__input';
+const profilePopupSelector = '.profile-form-popup';
+const profileForm = document.querySelector(profilePopupSelector).querySelector(popupFormSelector);
 const inputName = document.querySelector('#input-name');
 const inputPersonalInfo = document.querySelector('#input-personal-info');
 const addCardButton = document.querySelector('.profile__add-button');
-const placeFormPopup = document.querySelector('.place-form-popup');
-const placeForm = placeFormPopup.querySelector('.popup__form');
+const placePopupSelector = '.place-form-popup';
+const placeForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
+const popupWithImageSelector = '.image-popup';
+const popupImageSelector = '.popup__image';
 const validationSettings = {
-  formSelector: '.popup__form',
+  formSelector: popupFormSelector,
   inputSelector: '.popup__input',
   inputTouchedClass: 'popup__input_touched',
   submitButtonSelector: '.popup__button-submit',
@@ -36,8 +40,10 @@ profileFormValidator.enableValidation();
 const placeFormValidator = new FormValidator(validationSettings, placeForm);
 placeFormValidator.enableValidation();
 
-
-const popupWithImage = new PopupWithImage('.image-popup');
+const popupWithImage = new PopupWithImage({
+  popupSelector: popupWithImageSelector,
+  popupImageSelector: popupImageSelector
+});
 
 const createCardElement = (cardItem) => {
   const card = new Card(
@@ -69,7 +75,11 @@ const userInfo = new UserInfo({
 });
 
 const profilePopup = new PopupWithForm(
-  '.profile-form-popup',
+  {
+    popupSelector: profilePopupSelector,
+    formSelector: popupFormSelector,
+    inputSelector: popupInputSelector
+  },
   (data) => {
     profileFormValidator.prepareFormForSubmit();
     userInfo.setUserInfo(data);
@@ -78,7 +88,12 @@ const profilePopup = new PopupWithForm(
 );
 
 const placePopup = new PopupWithForm (
-  '.place-form-popup', (data) => {
+  {
+    popupSelector: placePopupSelector,
+    formSelector: popupFormSelector,
+    inputSelector: popupInputSelector
+  },
+  (data) => {
     placeFormValidator.prepareFormForSubmit();
     const cardElement = createCardElement(data);
     cardListSection.addItem(cardElement, true);
