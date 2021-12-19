@@ -39,20 +39,21 @@ placeFormValidator.enableValidation();
 
 const popupWithImage = new PopupWithImage('.image-popup');
 
+const createCardElement = (cardItem) => {
+  const card = new Card(
+    cardItem,
+    cardTemplateSelector,
+    () => {
+      popupWithImage.open(cardItem);
+    }
+  );
+  return card.createCardElement();
+}
+
 const cardListSection = new Section(
   {
     data: initialCards,
-    renderer: (cardItem) => {
-      const card = new Card(
-        cardItem,
-        cardTemplateSelector,
-        () => {
-          popupWithImage.open(cardItem);
-
-        }
-      );
-      return card.createCardElement();
-    },
+    renderer: createCardElement,
   },
   photoGridSectionSelector
 );
@@ -82,15 +83,9 @@ const placePopup = new PopupWithForm (
     evt.preventDefault();
     placeFormValidator.prepareFormForSubmit();
     if (placeFormValidator.formIsValid()) {
-      const cardData = placePopup.getInputValues()
-      const card = new Card(
-        cardData,
-        cardTemplateSelector,
-        () => {
-          popupWithImage.open(cardData);
-        }
-      );
-      cardListSection.addItem(card.createCardElement(), true);
+      const cardItem = placePopup.getInputValues()
+      const cardElement = createCardElement(cardItem);
+      cardListSection.addItem(cardElement, true);
       placePopup.close();
     }
   }
