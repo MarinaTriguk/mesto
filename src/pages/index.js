@@ -53,7 +53,10 @@ const createCardElement = (cardItem) => {
 const cardListSection = new Section(
   {
     data: initialCards,
-    renderer: createCardElement,
+    renderer: (cardItem) => {
+      const cardElement = createCardElement(cardItem);
+      cardListSection.addItem(cardElement);
+    },
   },
   photoGridSectionSelector
 );
@@ -67,27 +70,19 @@ const userInfo = new UserInfo({
 
 const profilePopup = new PopupWithForm(
   '.profile-form-popup',
-  (evt) => {
-    evt.preventDefault();
+  (data) => {
     profileFormValidator.prepareFormForSubmit();
-    if (profileFormValidator.formIsValid()) {
-      const formValues = profilePopup.getInputValues();
-      userInfo.setUserInfo(formValues);
-      profilePopup.close();
-    }
+    userInfo.setUserInfo(data);
+    profilePopup.close();
   }
 );
 
 const placePopup = new PopupWithForm (
-  '.place-form-popup', (evt) => {
-    evt.preventDefault();
+  '.place-form-popup', (data) => {
     placeFormValidator.prepareFormForSubmit();
-    if (placeFormValidator.formIsValid()) {
-      const cardItem = placePopup.getInputValues()
-      const cardElement = createCardElement(cardItem);
-      cardListSection.addItem(cardElement, true);
-      placePopup.close();
-    }
+    const cardElement = createCardElement(data);
+    cardListSection.addItem(cardElement, true);
+    placePopup.close();
   }
 );
 
