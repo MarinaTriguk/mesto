@@ -24,6 +24,12 @@ const placePopupSelector = '.place-form-popup';
 const placeForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
 const popupWithImageSelector = '.image-popup';
 const popupImageSelector = '.popup__image';
+const buttonLikeSelector = '.photo-card__like';
+const photoCardSelector = '.photo-card';
+const photoCardHeadingSelector = '.photo-card__heading';
+const photoCardImageSelector = '.photo-card__image';
+const photoCardLikeActiveClass = 'photo-card__like_active';
+
 const validationSettings = {
   formSelector: popupFormSelector,
   inputSelector: '.popup__input',
@@ -48,7 +54,14 @@ const popupWithImage = new PopupWithImage({
 const createCardElement = (cardItem) => {
   const card = new Card(
     cardItem,
-    cardTemplateSelector,
+    {
+      cardTemplateSelector: cardTemplateSelector,
+      buttonLikeSelector: buttonLikeSelector,
+      photoCardSelector: photoCardSelector,
+      photoCardHeadingSelector: photoCardHeadingSelector,
+      photoCardImageSelector: photoCardImageSelector,
+      photoCardLikeActiveClass: photoCardLikeActiveClass,
+    },
     () => {
       popupWithImage.open(cardItem);
     }
