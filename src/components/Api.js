@@ -49,6 +49,13 @@ export default class Api {
       }
     );
   }
+
+  deleteCard(cardId) {
+    return this._request(
+      '/cards/' + cardId,
+      'DELETE'
+    );
+  }
 }
 
 

@@ -35,6 +35,7 @@ const photoCardLikeSelector = '.photo-card__like';
 const photoCardNumberLikeSelector = '.photo-card__number-like';
 const popupWithConfirmationSelector = '.popup-with-confirmation';
 const buttonYesSelector = '.popup-button-yes';
+const photoCardRemoveButtonSelector = '.photo-card__remove';
 
 let cardListSection;
 
@@ -66,6 +67,14 @@ const popupWithImage = new PopupWithImage({
   popupImageSelector: popupImageSelector
 });
 
+const popupWithConfirmation = new PopupWithConfirmation(
+  {
+    popupSelector: popupWithConfirmationSelector,
+    buttonYesSelector: buttonYesSelector
+  }
+);
+popupWithConfirmation.setEventListeners();
+
 const createCardElement = (cardItem) => {
   const card = new Card(
     cardItem,
@@ -76,6 +85,7 @@ const createCardElement = (cardItem) => {
       photoCardHeadingSelector: photoCardHeadingSelector,
       photoCardImageSelector: photoCardImageSelector,
       photoCardLikeActiveClass: photoCardLikeActiveClass,
+      photoCardRemoveButtonSelector: photoCardRemoveButtonSelector,
       photoCardLikeSelector: photoCardLikeSelector,
       photoCardNumberLikeSelector: photoCardNumberLikeSelector
     },
@@ -83,56 +93,60 @@ const createCardElement = (cardItem) => {
       popupWithImage.open(cardItem);
     },
     (aCard) => {
-      const popupWithConfirmation = new PopupWithConfirmation(
-        {
-          popupSelector: popupWithConfirmationSelector,
-          buttonYesSelector: buttonYesSelector
-        },
+      popupWithConfirmation.setButtonYesCallback(
         () => {
-
+          api.deleteCard(aCard.getCardData()._id)
+            .then(res => {
+              popupWithConfirmation.close();
+              aCard.remove();
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
-
-      );
+      )
       popupWithConfirmation.open();
+    },
+    (aCard) => {
+      const userId = userInfo.getUserInfo()._id;
+      const cardOwnerId = aCard.getCardData().owner._id
+      return userId === cardOwnerId;
     }
   );
   return card.createCardElement();
 }
 
-api.getInitialCards()
-  .then(res => {
-    cardListSection = new Section(
-      {
-        data: res,
-        renderer: (cardItem) => {
-          console.log(cardItem);
-          const cardElement = createCardElement(cardItem);
-          cardListSection.addItem(cardElement);
-        },
-      },
-      photoGridSectionSelector
-    );
-    cardListSection.renderItems();
-  });
 
 
 
-const userInfo = new UserInfo(
-  {
-    userNameSelector: userNameSelector,
-    userRoleSelector: userRoleSelector,
-    userAvatarSelector: userAvatarSelector
-  },
-  {
-    initialUserName: '',
-    initialUserRole: '',
-    initialUserAvatar: ''
-  }
-);
+
+let userInfo;
 
 api.getProfile()
   .then(res => {
-    userInfo.setUserInfo({userName: res.name, userRole: res.about, userAvatar: res.avatar});
+    userInfo = new UserInfo(
+      {
+        userNameSelector: userNameSelector,
+        userRoleSelector: userRoleSelector,
+        userAvatarSelector: userAvatarSelector
+      },
+      res
+    );
+    api.getInitialCards()
+      .then(res => {
+        cardListSection = new Section(
+          {
+            data: res,
+            renderer: (cardItem) => {
+              console.log(cardItem);
+              const cardElement = createCardElement(cardItem);
+              cardListSection.addItem(cardElement);
+            },
+          },
+          photoGridSectionSelector
+        );
+        cardListSection.renderItems();
+      });
   })
   .catch((err) => {
     console.log(err);
@@ -169,7 +183,7 @@ const placePopup = new PopupWithForm (
     api.addNewCard(data.name, data.link)
       .then(res => {
         placeFormValidator.prepareFormForSubmit();
-        const cardElement = createCardElement(data);
+        const cardElement = createCardElement(res);
         cardListSection.addItem(cardElement, true);
         placePopup.close();
       })
@@ -182,9 +196,9 @@ const placePopup = new PopupWithForm (
 profileEditButton.addEventListener(
   'click',
   () => {
-    const {name, role} = userInfo.getUserInfo();
+    const {name, about} = userInfo.getUserInfo();
     inputName.value = name;
-    inputPersonalInfo.value = role;
+    inputPersonalInfo.value = about;
     profileFormValidator.prepareFormForUserInput();
     profilePopup.open();
   }

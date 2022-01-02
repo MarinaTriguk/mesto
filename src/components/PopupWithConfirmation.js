@@ -1,10 +1,13 @@
 import Popup from "./Popup.js";
 
 export default class PopupWithConfirmation extends Popup {
-  constructor({popupSelector, buttonYesSelector}, buttonYesCallback) {
+  constructor({popupSelector, buttonYesSelector}) {
     super(popupSelector);
-    this._buttonYesCallback = buttonYesCallback;
     this._buttonYes = this._popup.querySelector(buttonYesSelector);
+  }
+
+  setButtonYesCallback(buttonYesCallback) {
+    this._buttonYesCallback = buttonYesCallback;
   }
 
   setEventListeners() {
