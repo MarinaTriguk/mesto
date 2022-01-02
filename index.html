@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Место</title>
+<script defer src="main.js"></script><link href="main.css" rel="stylesheet"></head>
+<body class="body">
+  <header class="header">
+    <img class="header__logo" src="03b78ada3425e9132ff3.svg" alt="Место Россия">
+  </header>
+  <main class="main">
+    <section class="profile">
+      <img class="profile__image" src="9f5394aefe810a564d93.jpg" alt="Жак Кухто">
+      <div class="profile__info">
+        <div class="profile__name-and-button">
+          <h1 class="profile__name"></h1>
+          <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
+        </div>
+        <p class="profile__personal-info"></p>
+      </div>
+      <button type="button" aria-label="Добавить" class="profile__add-button"></button>
+    </section>
+    <section class="photo-grid"></section>
+  </main>
+  <footer class="footer">
+    <p class="footer__text">
+      &copy; 2020 Mesto Russia
+    </p>
+  </footer>
+  <div class="popup profile-form-popup">
+    <div class="popup__container">
+      <h2 class="popup__heading">Редактировать профиль</h2>
+      <form class="popup__form" name="profile.html" novalidate>
+        <input
+                type="text"
+                name="userName"
+                class="popup__input"
+                id="input-name"
+                placeholder="Имя"
+                minlength="2"
+                maxlength="40"
+                required>
+        <span class="popup__input-error input-name-error"></span>
+        <input
+                type="text"
+                name="userRole"
+                class="popup__input"
+                id="input-personal-info"
+                placeholder="Описание"
+                minlength="2"
+                maxlength="200"
+                required>
+        <span class="popup__input-error input-personal-info-error"></span>
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+      </form>
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
+  <div class="popup place-form-popup">
+    <div class="popup__container">
+      <h2 class="popup__heading">Новое место</h2>
+      <form class="popup__form" name="name.html" novalidate>
+        <input
+                type="text"
+                name="name"
+                class="popup__input"
+                id="input-place-name"
+                placeholder="Название"
+                minlength="2"
+                maxlength="30"
+                required>
+        <span class="popup__input-error input-place-name-error"></span>
+        <input
+                type="url"
+                name="link"
+                class="popup__input"
+                id="input-place-img-src"
+                placeholder="Ссылка на картинку"
+                required>
+        <span class="popup__input-error input-place-img-src-error"></span>
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+      </form>
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
+  <div class="popup image-popup">
+    <div class="popup__container popup__container_for-image">
+      <button class="popup__close-icon" type="button"></button>
+      <img class="popup__image" src="6b94e834c23562cadb37.jpg" alt="">
+      <h2 class="popup__image-heading"></h2>
+    </div>
+  </div>
+  <template id="photo-card-template">
+    <article class="photo-card">
+      <div class="photo-card__image-container">
+        <img class="photo-card__image" src="6b94e834c23562cadb37.jpg" alt="">
+      </div>
+      <div class="photo-card__information">
+        <h2 class="photo-card__heading">Горный лес</h2>
+        <button class="photo-card__like" type="button" aria-label="Лайк"></button>
+      </div>
+      <button class="photo-card__remove" type="button" aria-label="Удалить"></button>
+    </article>
+  </template>
+</body>
+</html>
+
