@@ -6,7 +6,9 @@ export default class  Card{
       photoCardHeadingSelector, photoCardImageSelector, photoCardLikeActiveClass,
       photoCardLikeSelector, photoCardNumberLikeSelector
     },
-    handleCardClick) {
+    handleCardClick,
+    handleCardRemoveClick
+  ) {
     this._name = name;
     this._link = link;
     this._id = _id;
@@ -18,9 +20,11 @@ export default class  Card{
     this._photoCardImageSelector = photoCardImageSelector;
     this._photoCardLikeActiveClass = photoCardLikeActiveClass;
     this._handleCardClick = handleCardClick;
+    this._handleCardRemoveClick = handleCardRemoveClick;
     this._photoCardLikeSelector = photoCardLikeSelector;
     this._photoCardNumberLikeSelector = photoCardNumberLikeSelector;
   }
+
 
   _createElement() {
     const photoCard = document.querySelector(this._cardTemplateSelector).content.querySelector(this._photoCardSelector).cloneNode(true);
@@ -39,7 +43,12 @@ export default class  Card{
       'click',
       () => this._buttonLike.classList.toggle(this._photoCardLikeActiveClass)
     );
-    this._photoCard.querySelector('.photo-card__remove').addEventListener('click', () => this._photoCard.remove());
+    this._photoCard.querySelector('.photo-card__remove').addEventListener(
+      'click',
+      () => {
+        this._handleCardRemoveClick(this);
+      }
+    );
   }
 
   createCardElement() {

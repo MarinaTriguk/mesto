@@ -3,12 +3,13 @@ export default class Api {
     this.baseUrl = baseUrl;
     this.headers = headers;
   }
-
-  getProfile() {
+  _request(address, method = 'GET', body = null) {
     return fetch(
-      this.baseUrl + '/users/me',
+      this.baseUrl + address,
       {
-        headers: this.headers
+        method: method,
+        headers: this.headers,
+        body: body !== null ? JSON.stringify(body) : undefined
       }
     )
       .then(res => {
@@ -18,43 +19,33 @@ export default class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       });
   }
+  getProfile() {
+    return this._request('/users/me');
+  }
 
   getInitialCards() {
-    return fetch(this.baseUrl + '/cards', {
-      headers: this.headers
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+    return this._request('/cards');
   }
 
   updateProfile(userName, userRole) {
-    return fetch(
-      this.baseUrl + '/users/me',
+    return this._request(
+      '/users/me',
+      'PATCH',
       {
-        method: 'PATCH',
-        headers: this.headers,
-        body: JSON.stringify({
-          name: userName,
-          about: userRole
-        })
+        name: userName,
+        about: userRole
       }
     );
+
   }
 
   addNewCard(cardName, cardLink) {
-    return fetch(
-      this.baseUrl + '/cards',
+    return this._request(
+      '/cards',
+      'POST',
       {
-        method: 'POST',
-        headers: this.headers,
-        body: JSON.stringify({
-          name: cardName,
-          link: cardLink
-        })
+        name: cardName,
+        link: cardLink
       }
     );
   }

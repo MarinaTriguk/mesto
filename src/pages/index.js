@@ -7,6 +7,7 @@ import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Api from "../components/Api.js";
+import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
 
 const photoGridSectionSelector = '.photo-grid';
 const cardTemplateSelector = '#photo-card-template';
@@ -32,6 +33,8 @@ const photoCardImageSelector = '.photo-card__image';
 const photoCardLikeActiveClass = 'photo-card__like_active';
 const photoCardLikeSelector = '.photo-card__like';
 const photoCardNumberLikeSelector = '.photo-card__number-like';
+const popupWithConfirmationSelector = '.popup-with-confirmation';
+const buttonYesSelector = '.popup-button-yes';
 
 let cardListSection;
 
@@ -78,6 +81,19 @@ const createCardElement = (cardItem) => {
     },
     () => {
       popupWithImage.open(cardItem);
+    },
+    (aCard) => {
+      const popupWithConfirmation = new PopupWithConfirmation(
+        {
+          popupSelector: popupWithConfirmationSelector,
+          buttonYesSelector: buttonYesSelector
+        },
+        () => {
+
+        }
+
+      );
+      popupWithConfirmation.open();
     }
   );
   return card.createCardElement();
