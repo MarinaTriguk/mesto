@@ -1,17 +1,18 @@
 import './index.css';
 
 import Card from '../components/Card.js';
-import {initialCards} from '../utils/initial-cards.js';
 import FormValidator from '../components/FormValidator.js';
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import Api from "../components/Api.js";
 
 const photoGridSectionSelector = '.photo-grid';
 const cardTemplateSelector = '#photo-card-template';
 const userNameSelector = '.profile__name';
 const userRoleSelector = '.profile__personal-info';
+const userAvatarSelector = '.profile__image';
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popupFormSelector = '.popup__form';
 const popupInputSelector = '.popup__input';
@@ -29,6 +30,10 @@ const photoCardSelector = '.photo-card';
 const photoCardHeadingSelector = '.photo-card__heading';
 const photoCardImageSelector = '.photo-card__image';
 const photoCardLikeActiveClass = 'photo-card__like_active';
+const photoCardLikeSelector = '.photo-card__like';
+const photoCardNumberLikeSelector = '.photo-card__number-like';
+
+let cardListSection;
 
 const validationSettings = {
   formSelector: popupFormSelector,
@@ -40,6 +45,13 @@ const validationSettings = {
   errorVisibleClass: 'popup__input-error_active'
 };
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
+  headers: {
+    authorization: '335a768c-ca5d-40e4-8a41-9424745573a9',
+    'Content-Type': 'application/json'
+  }
+});
 
 const profileFormValidator = new FormValidator(validationSettings, profileForm);
 profileFormValidator.enableValidation();
@@ -61,6 +73,8 @@ const createCardElement = (cardItem) => {
       photoCardHeadingSelector: photoCardHeadingSelector,
       photoCardImageSelector: photoCardImageSelector,
       photoCardLikeActiveClass: photoCardLikeActiveClass,
+      photoCardLikeSelector: photoCardLikeSelector,
+      photoCardNumberLikeSelector: photoCardNumberLikeSelector
     },
     () => {
       popupWithImage.open(cardItem);
@@ -69,23 +83,46 @@ const createCardElement = (cardItem) => {
   return card.createCardElement();
 }
 
-const cardListSection = new Section(
+api.getInitialCards()
+  .then(res => {
+    cardListSection = new Section(
+      {
+        data: res,
+        renderer: (cardItem) => {
+          console.log(cardItem);
+          const cardElement = createCardElement(cardItem);
+          cardListSection.addItem(cardElement);
+        },
+      },
+      photoGridSectionSelector
+    );
+    cardListSection.renderItems();
+  });
+
+
+
+const userInfo = new UserInfo(
   {
-    data: initialCards,
-    renderer: (cardItem) => {
-      const cardElement = createCardElement(cardItem);
-      cardListSection.addItem(cardElement);
-    },
+    userNameSelector: userNameSelector,
+    userRoleSelector: userRoleSelector,
+    userAvatarSelector: userAvatarSelector
   },
-  photoGridSectionSelector
+  {
+    initialUserName: '',
+    initialUserRole: '',
+    initialUserAvatar: ''
+  }
 );
 
-const userInfo = new UserInfo({
-  userNameSelector: userNameSelector,
-  userRoleSelector: userRoleSelector,
-  initialUserName: 'Жак-Ив Кусто',
-  initialUserRole: 'Исследователь океана'
-});
+api.getProfile()
+  .then(res => {
+    userInfo.setUserInfo({userName: res.name, userRole: res.about, userAvatar: res.avatar});
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+
 
 const profilePopup = new PopupWithForm(
   {
@@ -94,9 +131,15 @@ const profilePopup = new PopupWithForm(
     inputSelector: popupInputSelector
   },
   (data) => {
-    profileFormValidator.prepareFormForSubmit();
-    userInfo.setUserInfo(data);
-    profilePopup.close();
+    api.updateProfile(data.userName, data.userRole)
+      .then (res => {
+        profileFormValidator.prepareFormForSubmit();
+        userInfo.setUserInfo(data);
+        profilePopup.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 );
 
@@ -107,13 +150,18 @@ const placePopup = new PopupWithForm (
     inputSelector: popupInputSelector
   },
   (data) => {
-    placeFormValidator.prepareFormForSubmit();
-    const cardElement = createCardElement(data);
-    cardListSection.addItem(cardElement, true);
-    placePopup.close();
+    api.addNewCard(data.name, data.link)
+      .then(res => {
+        placeFormValidator.prepareFormForSubmit();
+        const cardElement = createCardElement(data);
+        cardListSection.addItem(cardElement, true);
+        placePopup.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 );
-
 
 profileEditButton.addEventListener(
   'click',
@@ -139,4 +187,3 @@ addCardButton.addEventListener(
 profilePopup.setEventListeners();
 placePopup.setEventListeners();
 popupWithImage.setEventListeners();
-cardListSection.renderItems();
