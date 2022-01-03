@@ -12,7 +12,10 @@
   </header>
   <main class="main">
     <section class="profile">
-      <img class="profile__image" src="9f5394aefe810a564d93.jpg" alt="Жак Кухто">
+      <div class="profile__image-container">
+        <img class="profile__image" src="4b9dd7a3a51aba87a810.png" alt="Изображение загружается">
+        <button class="profile__edit-avatar"></button>
+      </div>
       <div class="profile__info">
         <div class="profile__name-and-button">
           <h1 class="profile__name"></h1>
@@ -85,11 +88,37 @@
       <button class="popup__close-icon" type="button"></button>
     </div>
   </div>
+  <div class="popup avatar-form-popup">
+    <div class="popup__container">
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <form class="popup__form" name="name.html" novalidate>
+        <input
+                type="url"
+                name="avatar"
+                class="popup__input"
+                id="input-avatar"
+                placeholder="Ссылка на изображение"
+                minlength="2"
+                maxlength="600"
+                required>
+        <span class="popup__input-error input-avatar-error"></span>
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+      </form>
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
   <div class="popup image-popup">
     <div class="popup__container popup__container_for-image">
       <button class="popup__close-icon" type="button"></button>
       <img class="popup__image" src="6b94e834c23562cadb37.jpg" alt="">
       <h2 class="popup__image-heading"></h2>
+    </div>
+  </div>
+  <div class="popup popup-with-confirmation">
+    <div class="popup__container">
+      <button class="popup__close-icon" type="button"></button>
+      <h2 class="popup__heading">Вы уверены?</h2>
+      <button type="button" class="popup__button-submit popup-button-yes">Да</button>
     </div>
   </div>
   <template id="photo-card-template">
@@ -99,7 +128,10 @@
       </div>
       <div class="photo-card__information">
         <h2 class="photo-card__heading">Горный лес</h2>
-        <button class="photo-card__like" type="button" aria-label="Лайк"></button>
+        <div class="photo-card__like-container">
+          <button class="photo-card__like" type="button" aria-label="Лайк"></button>
+          <p class="photo-card__number-like">0</p>
+        </div>
       </div>
       <button class="photo-card__remove" type="button" aria-label="Удалить"></button>
     </article>

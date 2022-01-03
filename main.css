@@ -33,7 +33,15 @@
 /*!***********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__image/profile__image.css ***!
   \***********************************************************************************************************************************************************************/
-.profile__image{border-radius:120px;height:120px;width:120px}
+.profile__image{border-radius:120px;height:100%;-o-object-fit:cover;object-fit:cover;-o-object-position:center;object-position:center;width:100%}
+/*!*******************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__image-container/profile__image-container.css ***!
+  \*******************************************************************************************************************************************************************************************/
+.profile__image-container{display:flex;height:120px;position:relative;width:120px}
+/*!***********************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__edit-avatar/profile__edit-avatar.css ***!
+  \***********************************************************************************************************************************************************************************/
+.profile__edit-avatar{background-color:rgba(0,0,0,.8);background-image:url(a086f758840ae814ecde.svg);background-position:50%;background-repeat:no-repeat;border:none;cursor:pointer;height:100%;left:0;opacity:0;position:absolute;top:0;transition:opacity .5s ease-in-out;width:100%}.profile__edit-avatar:hover{opacity:1}
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/profile/__name-and-button/profile__name-and-button.css ***!
   \*******************************************************************************************************************************************************************************************/
@@ -146,6 +154,14 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/photo-card/__like/_active/photo-card__like_active.css ***!
   \******************************************************************************************************************************************************************************************/
 .photo-card__like_active{background-image:url(fe17a515669479b1e649.svg)}
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/photo-card/__like-container/photo-card__like-container.css ***!
+  \***********************************************************************************************************************************************************************************************/
+.photo-card__like-container{align-items:center;display:flex;flex-direction:column}
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/photo-card/__number-like/photo-card__number-like.css ***!
+  \*****************************************************************************************************************************************************************************************/
+.photo-card__number-like{font-size:13px;line-height:16px;margin:3px 0 0}
 /*!*******************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/photo-card/__remove/photo-card__remove.css ***!
   \*******************************************************************************************************************************************************************************/
