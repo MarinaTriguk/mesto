@@ -25,4 +25,8 @@ export default class UserInfo {
     this._user.about = userRole;
     this._updateElement();
   }
+  setUserAvatar(avatar) {
+    this._user.avatar = avatar;
+    this._updateElement();
+  }
 }

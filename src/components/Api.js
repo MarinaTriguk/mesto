@@ -56,6 +56,28 @@ export default class Api {
       'DELETE'
     );
   }
+
+  putLike(cardId) {
+    return this._request(
+      '/cards/' + cardId + '/likes',
+      'PUT'
+    );
+  }
+
+  deleteLike(cardId) {
+    return this._request(
+      '/cards/' + cardId + '/likes',
+      'DELETE'
+    );
+  }
+
+  updateUserAvatar(avatar) {
+    return this._request(
+      '/users/me/avatar',
+      'PATCH',
+      {avatar: avatar}
+    )
+  }
 }
 
 

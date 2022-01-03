@@ -95,10 +95,6 @@ export default class FormValidator {
     this._clearAllFormInputsTouchedState();
     this._updateFormValidity();
   }
-  prepareFormForSubmit() {
-    this._setAllFormInputsTouchedState();
-    this._updateFormValidity();
-  }
 
   enableValidation() {
     this._setEventListeners();

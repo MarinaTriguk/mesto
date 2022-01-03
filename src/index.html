@@ -12,7 +12,10 @@
   </header>
   <main class="main">
     <section class="profile">
-      <img class="profile__image" src="<%=require('./images/kuchto.jpg')%>" alt="Жак Кухто">
+      <div class="profile__image-container">
+        <img class="profile__image" src="<%=require('./images/solid-color-image.png')%>" alt="Изображение загружается">
+        <button class="profile__edit-avatar"></button>
+      </div>
       <div class="profile__info">
         <div class="profile__name-and-button">
           <h1 class="profile__name"></h1>
@@ -80,6 +83,25 @@
                 placeholder="Ссылка на картинку"
                 required>
         <span class="popup__input-error input-place-img-src-error"></span>
+        <input type="submit" class="popup__button-submit" value="Сохранить">
+      </form>
+      <button class="popup__close-icon" type="button"></button>
+    </div>
+  </div>
+  <div class="popup avatar-form-popup">
+    <div class="popup__container">
+      <h2 class="popup__heading">Обновить аватар</h2>
+      <form class="popup__form" name="name.html" novalidate>
+        <input
+                type="url"
+                name="avatar"
+                class="popup__input"
+                id="input-avatar"
+                placeholder="Ссылка на изображение"
+                minlength="2"
+                maxlength="600"
+                required>
+        <span class="popup__input-error input-avatar-error"></span>
         <input type="submit" class="popup__button-submit" value="Сохранить">
       </form>
       <button class="popup__close-icon" type="button"></button>

@@ -1,0 +1,7 @@
+.profile__image-container {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  position: relative;
+}
+

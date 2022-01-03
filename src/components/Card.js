@@ -8,7 +8,10 @@ export default class Card{
     },
     handleCardClick,
     handleCardRemoveClick,
-    canDeleteCardCallback
+    canDeleteCardCallback,
+    cardIsLiked,
+    putLikeCallback,
+    deleteLikeCallback
   ) {
     this._cardData = cardData;
     this._cardTemplateSelector = cardTemplateSelector;
@@ -23,22 +26,9 @@ export default class Card{
     this._photoCardLikeSelector = photoCardLikeSelector;
     this._photoCardRemoveButtonSelector = photoCardRemoveButtonSelector;
     this._photoCardNumberLikeSelector = photoCardNumberLikeSelector;
-  }
-
-
-  _createElement() {
-    const photoCard = document.querySelector(this._cardTemplateSelector).content.querySelector(this._photoCardSelector).cloneNode(true);
-    photoCard.querySelector(this._photoCardHeadingSelector).textContent = this._cardData.name;
-    this._img = photoCard.querySelector(this._photoCardImageSelector);
-    this._img.setAttribute('alt', this._cardData.name);
-    this._img.setAttribute('src', this._cardData.link);
-    this._numberLikeHtmlElement = photoCard.querySelector(this._photoCardNumberLikeSelector);
-    this._numberLikeHtmlElement.textContent = this._cardData.likes.length;
-    this._photoCardRemoveButton = photoCard.querySelector(this._photoCardRemoveButtonSelector);
-    if (!this._canDeleteCardCallback(this)) {
-      this._photoCardRemoveButton.remove();
-    }
-    return photoCard;
+    this._cardIsLiked = cardIsLiked;
+    this._putLikeCallback = putLikeCallback;
+    this._deleteLikeCallback = deleteLikeCallback;
   }
 
   getCardData() {
@@ -48,7 +38,31 @@ export default class Card{
     this._img.addEventListener('click', this._handleCardClick);
     this._buttonLike.addEventListener(
       'click',
-      () => this._buttonLike.classList.toggle(this._photoCardLikeActiveClass)
+      () => {
+        if (!this._hasLike) {
+          this._putLikeCallback(this)
+            .then((res) => {
+              this._cardData = res;
+              this._buttonLike.classList.add(this._photoCardLikeActiveClass);
+              this._numberLikeHtmlElement.textContent = this._cardData.likes.length;
+              this._hasLike = true;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          this._deleteLikeCallback(this)
+            .then((res) => {
+              this._cardData = res;
+              this._buttonLike.classList.remove(this._photoCardLikeActiveClass);
+              this._numberLikeHtmlElement.textContent = this._cardData.likes.length;
+              this._hasLike = false;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      }
     );
     this._photoCardRemoveButton.addEventListener(
       'click',
@@ -59,8 +73,22 @@ export default class Card{
   }
 
   createCardElement() {
-    this._photoCard = this._createElement();
+    this._photoCard = document.querySelector(this._cardTemplateSelector).content.querySelector(this._photoCardSelector).cloneNode(true);
+    this._photoCard.querySelector(this._photoCardHeadingSelector).textContent = this._cardData.name;
+    this._img = this._photoCard.querySelector(this._photoCardImageSelector);
+    this._img.setAttribute('alt', this._cardData.name);
+    this._img.setAttribute('src', this._cardData.link);
+    this._numberLikeHtmlElement = this._photoCard.querySelector(this._photoCardNumberLikeSelector);
+    this._numberLikeHtmlElement.textContent = this._cardData.likes.length;
+    this._photoCardRemoveButton = this._photoCard.querySelector(this._photoCardRemoveButtonSelector);
+    if (!this._canDeleteCardCallback(this)) {
+      this._photoCardRemoveButton.remove();
+    }
     this._buttonLike = this._photoCard.querySelector(this._buttonLikeSelector);
+    this._hasLike = this._cardIsLiked(this);
+    if (this._hasLike) {
+      this._buttonLike.classList.add(this._photoCardLikeActiveClass);
+    }
     this._setEventListeners(this._photoCard);
     return this._photoCard;
   }

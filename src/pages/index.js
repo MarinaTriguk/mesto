@@ -15,15 +15,20 @@ const userNameSelector = '.profile__name';
 const userRoleSelector = '.profile__personal-info';
 const userAvatarSelector = '.profile__image';
 const profileEditButton = document.querySelector('.profile__edit-button');
+const avatarEditButton = document.querySelector('.profile__edit-avatar');
 const popupFormSelector = '.popup__form';
 const popupInputSelector = '.popup__input';
+const popupSubmitButtonSelector = '.popup__button-submit';
 const profilePopupSelector = '.profile-form-popup';
 const profileForm = document.querySelector(profilePopupSelector).querySelector(popupFormSelector);
+const inputAvatar = document.querySelector('#input-avatar');
 const inputName = document.querySelector('#input-name');
 const inputPersonalInfo = document.querySelector('#input-personal-info');
 const addCardButton = document.querySelector('.profile__add-button');
 const placePopupSelector = '.place-form-popup';
+const avatarPopupSelector = '.avatar-form-popup';
 const placeForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
+const avatarForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
 const popupWithImageSelector = '.image-popup';
 const popupImageSelector = '.popup__image';
 const buttonLikeSelector = '.photo-card__like';
@@ -43,12 +48,19 @@ const validationSettings = {
   formSelector: popupFormSelector,
   inputSelector: '.popup__input',
   inputTouchedClass: 'popup__input_touched',
-  submitButtonSelector: '.popup__button-submit',
+  submitButtonSelector: popupSubmitButtonSelector,
   inactiveButtonClass: 'popup__button-submit_disabled',
   inputErrorClass: 'popup__input_type_error',
   errorVisibleClass: 'popup__input-error_active'
 };
 
+const popupSettings = {
+  formSelector: popupFormSelector,
+  inputSelector: popupInputSelector,
+  submitButtonSelector: popupSubmitButtonSelector,
+  submitButtonTextWhenNotBusy: 'Сохранить',
+  submitButtonTextWhenBusy: 'Сохранение...',
+};
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
   headers: {
@@ -61,6 +73,8 @@ const profileFormValidator = new FormValidator(validationSettings, profileForm);
 profileFormValidator.enableValidation();
 const placeFormValidator = new FormValidator(validationSettings, placeForm);
 placeFormValidator.enableValidation();
+const avatarFormValidator = new FormValidator(validationSettings, avatarForm);
+avatarFormValidator.enableValidation();
 
 const popupWithImage = new PopupWithImage({
   popupSelector: popupWithImageSelector,
@@ -96,7 +110,7 @@ const createCardElement = (cardItem) => {
       popupWithConfirmation.setButtonYesCallback(
         () => {
           api.deleteCard(aCard.getCardData()._id)
-            .then(res => {
+            .then(() => {
               popupWithConfirmation.close();
               aCard.remove();
             })
@@ -111,7 +125,27 @@ const createCardElement = (cardItem) => {
       const userId = userInfo.getUserInfo()._id;
       const cardOwnerId = aCard.getCardData().owner._id
       return userId === cardOwnerId;
+    },
+
+    (aCard) => {
+      const userId = userInfo.getUserInfo()._id;
+      const cardLikes = aCard.getCardData().likes;
+      let foundLike = false;
+      cardLikes.forEach((cardLike) => {
+        if (cardLike._id === userId) {
+          foundLike = true;
+        }
+      });
+      return foundLike;
+    },
+    (aCard) => {
+      return api.putLike(aCard.getCardData()._id);
+    },
+    (aCard) => {
+      return api.deleteLike(aCard.getCardData()._id);
     }
+
+
   );
   return card.createCardElement();
 }
@@ -138,7 +172,6 @@ api.getProfile()
           {
             data: res,
             renderer: (cardItem) => {
-              console.log(cardItem);
               const cardElement = createCardElement(cardItem);
               cardListSection.addItem(cardElement);
             },
@@ -155,17 +188,15 @@ api.getProfile()
 
 
 const profilePopup = new PopupWithForm(
-  {
-    popupSelector: profilePopupSelector,
-    formSelector: popupFormSelector,
-    inputSelector: popupInputSelector
-  },
+  profilePopupSelector,
+  popupSettings,
   (data) => {
+    profilePopup.setIsBusy();
     api.updateProfile(data.userName, data.userRole)
-      .then (res => {
-        profileFormValidator.prepareFormForSubmit();
+      .then (() => {
         userInfo.setUserInfo(data);
         profilePopup.close();
+        profilePopup.setIsBusy(false);
       })
       .catch((err) => {
         console.log(err);
@@ -174,18 +205,33 @@ const profilePopup = new PopupWithForm(
 );
 
 const placePopup = new PopupWithForm (
-  {
-    popupSelector: placePopupSelector,
-    formSelector: popupFormSelector,
-    inputSelector: popupInputSelector
-  },
+  placePopupSelector,
+  popupSettings,
   (data) => {
+    placePopup.setIsBusy();
     api.addNewCard(data.name, data.link)
       .then(res => {
-        placeFormValidator.prepareFormForSubmit();
         const cardElement = createCardElement(res);
         cardListSection.addItem(cardElement, true);
+        profilePopup.setIsBusy(false);
         placePopup.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+);
+
+const avatarPopup = new PopupWithForm (
+  avatarPopupSelector,
+  popupSettings,
+  (data) => {
+    avatarPopup.setIsBusy();
+    api.updateUserAvatar(data.avatar)
+      .then(res => {
+        userInfo.setUserAvatar(res.avatar);
+        avatarPopup.setIsBusy(false);
+        avatarPopup.close();
       })
       .catch((err) => {
         console.log(err);
@@ -204,6 +250,16 @@ profileEditButton.addEventListener(
   }
 );
 
+avatarEditButton.addEventListener(
+  'click',
+  () => {
+    const {avatar} = userInfo.getUserInfo();
+    inputAvatar.value = avatar;
+    avatarFormValidator.prepareFormForUserInput();
+    avatarPopup.open();
+  }
+)
+
 addCardButton.addEventListener(
   'click',
   function () {
@@ -213,7 +269,7 @@ addCardButton.addEventListener(
   }
 );
 
+[profilePopup, placePopup, avatarPopup, popupWithImage].forEach(
+  item => item.setEventListeners()
+);
 
-profilePopup.setEventListeners();
-placePopup.setEventListeners();
-popupWithImage.setEventListeners();
