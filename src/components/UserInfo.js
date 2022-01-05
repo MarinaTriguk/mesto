@@ -16,13 +16,13 @@ export default class UserInfo {
   _updateElement() {
     this._userNameHtmlElement.textContent = this._user.name;
     this._userRoleHtmlElement.textContent = this._user.about;
-    this._userAvatarHtmlElement.setAttribute('src', this._user.avatar);
-    this._userAvatarHtmlElement.setAttribute('alt', this._user.name);
+    this._userAvatarHtmlElement.src = this._user.avatar;
+    this._userAvatarHtmlElement.alt = this._user.name;
   }
 
-  setUserInfo({userName, userRole}) {
-    this._user.name = userName;
-    this._user.about = userRole;
+  setUserInfo({name, about}) {
+    this._user.name = name;
+    this._user.about = about;
     this._updateElement();
   }
   setUserAvatar(avatar) {

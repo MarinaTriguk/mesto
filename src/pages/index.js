@@ -8,59 +8,32 @@ import UserInfo from "../components/UserInfo.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import Api from "../components/Api.js";
 import PopupWithConfirmation from "../components/PopupWithConfirmation.js";
+import {
+  validationSettings,
+  profileForm,
+  placeForm,
+  avatarForm,
+  popupWithImageSelector,
+  popupImageSelector,
+  popupWithConfirmationSelector,
+  buttonYesSelector,
+  userProfileSettings,
+  solidColorImage,
+  cardConfig,
+  photoGridSectionSelector,
+  profilePopupSelector,
+  popupSettings,
+  placePopupSelector,
+  avatarPopupSelector,
+  profileEditButton,
+  avatarEditButton,
+  addCardButton,
+  inputName,
+  inputPersonalInfo,
+} from "../utils/constants.js"
 
-const photoGridSectionSelector = '.photo-grid';
-const cardTemplateSelector = '#photo-card-template';
-const userNameSelector = '.profile__name';
-const userRoleSelector = '.profile__personal-info';
-const userAvatarSelector = '.profile__image';
-const profileEditButton = document.querySelector('.profile__edit-button');
-const avatarEditButton = document.querySelector('.profile__edit-avatar');
-const popupFormSelector = '.popup__form';
-const popupInputSelector = '.popup__input';
-const popupSubmitButtonSelector = '.popup__button-submit';
-const profilePopupSelector = '.profile-form-popup';
-const profileForm = document.querySelector(profilePopupSelector).querySelector(popupFormSelector);
-const inputAvatar = document.querySelector('#input-avatar');
-const inputName = document.querySelector('#input-name');
-const inputPersonalInfo = document.querySelector('#input-personal-info');
-const addCardButton = document.querySelector('.profile__add-button');
-const placePopupSelector = '.place-form-popup';
-const avatarPopupSelector = '.avatar-form-popup';
-const placeForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
-const avatarForm = document.querySelector(placePopupSelector).querySelector(popupFormSelector);
-const popupWithImageSelector = '.image-popup';
-const popupImageSelector = '.popup__image';
-const buttonLikeSelector = '.photo-card__like';
-const photoCardSelector = '.photo-card';
-const photoCardHeadingSelector = '.photo-card__heading';
-const photoCardImageSelector = '.photo-card__image';
-const photoCardLikeActiveClass = 'photo-card__like_active';
-const photoCardLikeSelector = '.photo-card__like';
-const photoCardNumberLikeSelector = '.photo-card__number-like';
-const popupWithConfirmationSelector = '.popup-with-confirmation';
-const buttonYesSelector = '.popup-button-yes';
-const photoCardRemoveButtonSelector = '.photo-card__remove';
+export let userId = null;
 
-let cardListSection;
-
-const validationSettings = {
-  formSelector: popupFormSelector,
-  inputSelector: '.popup__input',
-  inputTouchedClass: 'popup__input_touched',
-  submitButtonSelector: popupSubmitButtonSelector,
-  inactiveButtonClass: 'popup__button-submit_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorVisibleClass: 'popup__input-error_active'
-};
-
-const popupSettings = {
-  formSelector: popupFormSelector,
-  inputSelector: popupInputSelector,
-  submitButtonSelector: popupSubmitButtonSelector,
-  submitButtonTextWhenNotBusy: 'Сохранить',
-  submitButtonTextWhenBusy: 'Сохранение...',
-};
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
   headers: {
@@ -87,22 +60,33 @@ const popupWithConfirmation = new PopupWithConfirmation(
     buttonYesSelector: buttonYesSelector
   }
 );
+
+const userInfo = new UserInfo(
+  userProfileSettings,
+  {
+    name: '',
+    about: '',
+    avatar: solidColorImage,
+  }
+);
+
+const cardListSection = new Section(
+  {
+    data: [],
+    renderer: (cardItem) => {
+      const cardElement = createCardElement(cardItem);
+      cardListSection.addItem(cardElement);
+    },
+  },
+  photoGridSectionSelector
+);
+
 popupWithConfirmation.setEventListeners();
 
 const createCardElement = (cardItem) => {
   const card = new Card(
     cardItem,
-    {
-      cardTemplateSelector: cardTemplateSelector,
-      buttonLikeSelector: buttonLikeSelector,
-      photoCardSelector: photoCardSelector,
-      photoCardHeadingSelector: photoCardHeadingSelector,
-      photoCardImageSelector: photoCardImageSelector,
-      photoCardLikeActiveClass: photoCardLikeActiveClass,
-      photoCardRemoveButtonSelector: photoCardRemoveButtonSelector,
-      photoCardLikeSelector: photoCardLikeSelector,
-      photoCardNumberLikeSelector: photoCardNumberLikeSelector
-    },
+    cardConfig,
     () => {
       popupWithImage.open(cardItem);
     },
@@ -122,85 +106,59 @@ const createCardElement = (cardItem) => {
       popupWithConfirmation.open();
     },
     (aCard) => {
-      const userId = userInfo.getUserInfo()._id;
-      const cardOwnerId = aCard.getCardData().owner._id
-      return userId === cardOwnerId;
-    },
-
-    (aCard) => {
-      const userId = userInfo.getUserInfo()._id;
-      const cardLikes = aCard.getCardData().likes;
-      let foundLike = false;
-      cardLikes.forEach((cardLike) => {
-        if (cardLike._id === userId) {
-          foundLike = true;
-        }
-      });
-      return foundLike;
-    },
-    (aCard) => {
-      return api.putLike(aCard.getCardData()._id);
-    },
-    (aCard) => {
-      return api.deleteLike(aCard.getCardData()._id);
+      if (!aCard.hasLike()) {
+        api.putLike(aCard.getCardData()._id)
+          .then((res) => {
+            aCard.setCardLikes(res.likes);
+            aCard.setHasLike(true);
+            aCard.updateCardLikes();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        api.deleteLike(aCard.getCardData()._id)
+          .then((res) => {
+            aCard.setCardLikes(res.likes);
+            aCard.setHasLike(false);
+            aCard.updateCardLikes();
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
-
-
   );
   return card.createCardElement();
 }
 
+Promise.all([api.getProfile(), api.getInitialCards()])
+  .then(([profile, initialCards]) => {
+    userInfo.setUserInfo(profile);
+    userInfo.setUserAvatar(profile.avatar);
+    userId = profile._id;
 
-
-
-
-let userInfo;
-
-api.getProfile()
-  .then(res => {
-    userInfo = new UserInfo(
-      {
-        userNameSelector: userNameSelector,
-        userRoleSelector: userRoleSelector,
-        userAvatarSelector: userAvatarSelector
-      },
-      res
-    );
-    api.getInitialCards()
-      .then(res => {
-        cardListSection = new Section(
-          {
-            data: res,
-            renderer: (cardItem) => {
-              const cardElement = createCardElement(cardItem);
-              cardListSection.addItem(cardElement);
-            },
-          },
-          photoGridSectionSelector
-        );
-        cardListSection.renderItems();
-      });
+    cardListSection.setItems(initialCards);
+    cardListSection.renderItems();
   })
   .catch((err) => {
     console.log(err);
   });
-
-
 
 const profilePopup = new PopupWithForm(
   profilePopupSelector,
   popupSettings,
   (data) => {
     profilePopup.setIsBusy();
-    api.updateProfile(data.userName, data.userRole)
+    api.updateProfile(data.name, data.about)
       .then (() => {
         userInfo.setUserInfo(data);
         profilePopup.close();
-        profilePopup.setIsBusy(false);
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => profilePopup.setIsBusy(false));
   }
 );
 
@@ -213,12 +171,12 @@ const placePopup = new PopupWithForm (
       .then(res => {
         const cardElement = createCardElement(res);
         cardListSection.addItem(cardElement, true);
-        profilePopup.setIsBusy(false);
         placePopup.close();
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => placePopup.setIsBusy(false));
   }
 );
 
@@ -235,7 +193,8 @@ const avatarPopup = new PopupWithForm (
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => avatarPopup.setIsBusy(false));
   }
 );
 
@@ -253,8 +212,6 @@ profileEditButton.addEventListener(
 avatarEditButton.addEventListener(
   'click',
   () => {
-    const {avatar} = userInfo.getUserInfo();
-    inputAvatar.value = avatar;
     avatarFormValidator.prepareFormForUserInput();
     avatarPopup.open();
   }

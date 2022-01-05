@@ -27,13 +27,13 @@ export default class Api {
     return this._request('/cards');
   }
 
-  updateProfile(userName, userRole) {
+  updateProfile(name, about) {
     return this._request(
       '/users/me',
       'PATCH',
       {
-        name: userName,
-        about: userRole
+        name: name,
+        about: about
       }
     );
 
