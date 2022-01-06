@@ -109,11 +109,11 @@
 /*!***********************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__button-submit/popup__button-submit.css ***!
   \***********************************************************************************************************************************************************************************/
-.popup__button-submit{align-items:center;background-color:#000;border:none;border-radius:2px;color:#fff;cursor:pointer;display:flex;font-size:18px;font-style:normal;font-weight:400;justify-content:center;line-height:22px;margin-top:35px;padding:14px 0 18px;transition:opacity .5s ease-in-out}.popup__button-submit:hover{opacity:.8}@media (max-width:720px){.popup__button-submit{font-size:14px;line-height:17px}}
+.popup__button-submit{align-items:center;background-color:#000;border:1px solid #000;border-radius:2px;color:#fff;cursor:pointer;display:flex;font-size:18px;font-style:normal;font-weight:400;justify-content:center;line-height:22px;margin-top:35px;padding:14px 0 18px;transition:opacity .5s ease-in-out}.popup__button-submit:hover{opacity:.8}@media (max-width:720px){.popup__button-submit{font-size:14px;line-height:17px}}
 /*!******************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__button-submit/_disabled/popup__button-submit_disabled.css ***!
   \******************************************************************************************************************************************************************************************************/
-.popup__button-submit_disabled{background-color:#fff;border:1px solid #000;color:#000;cursor:not-allowed;opacity:.2}
+.popup__button-submit_disabled{background-color:#fff;color:#000;cursor:not-allowed;opacity:.2}
 /*!*******************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js!./src/blocks/popup/__input-error/popup__input-error.css ***!
   \*******************************************************************************************************************************************************************************/
