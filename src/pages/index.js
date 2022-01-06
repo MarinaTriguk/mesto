@@ -32,7 +32,7 @@ import {
   inputPersonalInfo,
 } from "../utils/constants.js"
 
-export let userId = null;
+let userId = null;
 
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-32',
@@ -86,6 +86,7 @@ popupWithConfirmation.setEventListeners();
 const createCardElement = (cardItem) => {
   const card = new Card(
     cardItem,
+    userId,
     cardConfig,
     () => {
       popupWithImage.open(cardItem);

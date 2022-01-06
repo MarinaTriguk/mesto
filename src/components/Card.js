@@ -1,8 +1,7 @@
-import {userId} from "../pages/index";
-
 export default class Card{
   constructor (
     cardData,
+    userId,
     {
       cardTemplateSelector, buttonLikeSelector, photoCardSelector,
       photoCardHeadingSelector, photoCardImageSelector, photoCardLikeActiveClass,
@@ -13,6 +12,7 @@ export default class Card{
     handleCardLikeClick,
   ) {
     this._cardData = cardData;
+    this._userId = userId;
     this._cardTemplateSelector = cardTemplateSelector;
     this._buttonLikeSelector = buttonLikeSelector;
     this._photoCardSelector = photoCardSelector;
@@ -27,7 +27,7 @@ export default class Card{
     this._hasLike = this._isLikedByCurrentUser();
   }
   _isLikedByCurrentUser() {
-    return this._cardData.likes.some(cardLike => cardLike._id === userId);
+    return this._cardData.likes.some(cardLike => cardLike._id === this._userId);
   }
   getCardData() {
     return this._cardData;
@@ -53,7 +53,7 @@ export default class Card{
   }
 
   _canDeleteCard() {
-    return userId === this._cardData.owner._id;
+    return this._userId === this._cardData.owner._id;
   }
   hasLike() {
     return this._hasLike;
